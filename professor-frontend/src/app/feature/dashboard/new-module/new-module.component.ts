@@ -1,6 +1,9 @@
 import {AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import * as THREE from 'three';
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import {MTLLoader} from "three/examples/jsm/loaders/MTLLoader";
+import {async} from "rxjs";
 
 @Component({
   selector: 'app-new-module',
@@ -30,12 +33,17 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
     return this.canvasRef.nativeElement;
   }
 
-  private loader = new THREE.TextureLoader();
+  private textureLoader = new THREE.TextureLoader();
   private geometry = new THREE.BoxGeometry(1,1,1);
-  private material = new THREE.MeshBasicMaterial({map: this.loader.load(this.texture)});
+  private material = new THREE.MeshBasicMaterial({map: this.textureLoader.load(this.texture)});
   private cube : THREE.Mesh = new THREE.Mesh(this.geometry, this.material);
   private renderer! : THREE.WebGLRenderer;
   private scene! : THREE.Scene;
+  private arduino! : THREE.Object3D;
+
+  // Add a basic light
+  private light = new THREE.DirectionalLight(0xffffff, 1);
+
 
   //create oXYZ guidelines
   private oxMaterial = new THREE.LineBasicMaterial( { color: 0xff0000 } );
@@ -44,6 +52,7 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
   private pointsOy = [];
   private ozMaterial = new THREE.LineBasicMaterial( { color: 0x0000ff } );
   private pointsOz = [];
+
   /**
    * Create the scene
    *
@@ -54,7 +63,27 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
     //* Scene
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x000000);
-    this.scene.add(this.cube);
+    // this.scene.add(this.cube);
+    this.loadObjWithMaterials(
+        'assets/objects_and_materials/arduino-uno.obj',
+        'assets/objects_and_materials/arduino-uno.mtl',
+        'assets/objects_and_materials/arduino-uno.jpg'
+    )
+        .then((object) => {
+          this.arduino = object;
+
+          // Apply transformations
+          this.arduino.scale.set(.1, .1, .1); // Set scale
+          this.arduino.position.set(0, 0, 0); // Center the object
+          this.scene.add(this.arduino); // Add the object to the scene
+          console.log('Model added to the scene and ready for manipulation');
+        })
+        .catch((error) => {
+          console.error('Error loading model:', error);
+        });
+
+    this.light.position.set(5, 10, 7.5);
+    this.scene.add(this.light);
 
     this.pointsOx.push( new THREE.Vector3( 0, 0, 0 ) );
     this.pointsOx.push( new THREE.Vector3( 10, 0, 0 ) );
@@ -200,6 +229,61 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
 
     this.camera.position.set(x, y, this.camera.position.z);
     this.camera.lookAt(this.scene.position);
+  }
+
+  private loadObjWithMaterials(objPath: string, mtlPath: string, texturePath: string): Promise<THREE.Object3D> {
+    return new Promise((resolve, reject) => {
+      const mtlLoader = new MTLLoader();
+      mtlLoader.load(
+          mtlPath,
+          (materials) => {
+            materials.preload();
+
+            const objLoader = new OBJLoader();
+            objLoader.setMaterials(materials);
+            objLoader.load(
+                objPath,
+                (object) => {
+                  // Apply texture to the object
+                  const textureLoader = new THREE.TextureLoader();
+                  const texture = textureLoader.load(texturePath);
+
+                  // Traverse the object's children and apply the texture to each mesh
+                  object.traverse((child) => {
+                    if ((child as THREE.Mesh).isMesh) {
+                      const mesh = child as THREE.Mesh;
+                      if (mesh.material && Array.isArray(mesh.material)) {
+                        // If the material is an array (multi-material), apply the texture to each
+                        mesh.material.forEach((material) => {
+                          if (material instanceof THREE.MeshStandardMaterial) {
+                            material.map = texture;
+                            material.needsUpdate = true; // Notify Three.js that the material has been updated
+                          }
+                        });
+                      } else if (mesh.material instanceof THREE.MeshStandardMaterial) {
+                        // Single material
+                        mesh.material.map = texture;
+                        mesh.material.needsUpdate = true;
+                      }
+                    }
+                  });
+
+                  resolve(object); // Resolve the promise with the loaded object
+                },
+                (xhr) => {
+                  console.log(`Model ${Math.round((xhr.loaded / xhr.total) * 100)}% loaded`);
+                },
+                (error) => {
+                  reject(`An error occurred while loading the model: ${error}`);
+                }
+            );
+          },
+          undefined,
+          (error) => {
+            reject(`An error occurred while loading materials: ${error}`);
+          }
+      );
+    });
   }
 
 
