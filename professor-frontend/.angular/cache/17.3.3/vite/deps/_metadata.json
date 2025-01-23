@@ -1,0 +1,82 @@
+{
+  "hash": "10d87274",
+  "configHash": "d98b385e",
+  "lockfileHash": "f22954aa",
+  "browserHash": "66f51819",
+  "optimized": {
+    "@angular/common": {
+      "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "ae27a78b",
+      "needsInterop": false
+    },
+    "@angular/common/http": {
+      "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
+      "file": "@angular_common_http.js",
+      "fileHash": "bc42add9",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "68e251b0",
+      "needsInterop": false
+    },
+    "@angular/forms": {
+      "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
+      "file": "@angular_forms.js",
+      "fileHash": "9626060e",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "459c565f",
+      "needsInterop": false
+    },
+    "@angular/router": {
+      "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
+      "file": "@angular_router.js",
+      "fileHash": "3c8b11e0",
+      "needsInterop": false
+    },
+    "ngx-cookie-service": {
+      "src": "../../../../../node_modules/ngx-cookie-service/fesm2022/ngx-cookie-service.mjs",
+      "file": "ngx-cookie-service.js",
+      "fileHash": "f4b65b2c",
+      "needsInterop": false
+    },
+    "three": {
+      "src": "../../../../../node_modules/three/build/three.module.js",
+      "file": "three.js",
+      "fileHash": "1677dfaf",
+      "needsInterop": false
+    },
+    "three/examples/jsm/controls/OrbitControls.js": {
+      "src": "../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js",
+      "file": "three_examples_jsm_controls_OrbitControls__js.js",
+      "fileHash": "55fbaa7b",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-ITADWQPN": {
+      "file": "chunk-ITADWQPN.js"
+    },
+    "chunk-MEII74SL": {
+      "file": "chunk-MEII74SL.js"
+    },
+    "chunk-QOM64K4O": {
+      "file": "chunk-QOM64K4O.js"
+    },
+    "chunk-APMNFYV2": {
+      "file": "chunk-APMNFYV2.js"
+    },
+    "chunk-UOBFOXPR": {
+      "file": "chunk-UOBFOXPR.js"
+    },
+    "chunk-J4B6MK7R": {
+      "file": "chunk-J4B6MK7R.js"
+    }
+  }
+}
