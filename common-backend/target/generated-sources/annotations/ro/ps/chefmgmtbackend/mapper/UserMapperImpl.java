@@ -9,7 +9,7 @@ import ro.ps.chefmgmtbackend.model.UserEntity;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-30T15:41:23+0200",
+    date = "2025-01-23T16:43:41+0200",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.1 (Oracle Corporation)"
 )
 @Component
