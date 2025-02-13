@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import {MTLLoader} from "three/examples/jsm/loaders/MTLLoader";
-import {async} from "rxjs";
 
 @Component({
   selector: 'app-new-module',
@@ -17,8 +16,6 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
   @ViewChild('canvas')
   private canvasRef: ElementRef;
 
-  @Input() public rotationSpeedX: number = 0.05;
-  @Input() public rotationSpeedY: number = 0.01;
   @Input() public size: number = 200;
   @Input() public texture: string = 'assets/jag-texture.png';
   @Input() public cameraZ: number = 400;
@@ -33,17 +30,13 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
     return this.canvasRef.nativeElement;
   }
 
-  private textureLoader = new THREE.TextureLoader();
-  private geometry = new THREE.BoxGeometry(1,1,1);
-  private material = new THREE.MeshBasicMaterial({map: this.textureLoader.load(this.texture)});
-  private cube : THREE.Mesh = new THREE.Mesh(this.geometry, this.material);
   private renderer! : THREE.WebGLRenderer;
   private scene! : THREE.Scene;
   private arduino! : THREE.Object3D;
+  public hierarchy: THREE.Mesh[] = [];
 
   // Add a basic light
   private light = new THREE.DirectionalLight(0xffffff, 1);
-
 
   //create oXYZ guidelines
   private oxMaterial = new THREE.LineBasicMaterial( { color: 0xff0000 } );
@@ -52,6 +45,9 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
   private pointsOy = [];
   private ozMaterial = new THREE.LineBasicMaterial( { color: 0x0000ff } );
   private pointsOz = [];
+
+  // object selection: a solution based on Raycaster
+  private raycaster = new THREE.Raycaster();
 
   /**
    * Create the scene
@@ -65,7 +61,7 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
     this.scene.background = new THREE.Color(0x000000);
     // this.scene.add(this.cube);
     this.loadObjWithMaterials(
-        'assets/objects_and_materials/arduino-uno.obj',
+        'assets/objects_and_materials/untitled.obj',
         'assets/objects_and_materials/arduino-uno.mtl',
         'assets/objects_and_materials/arduino-uno.jpg'
     )
@@ -77,6 +73,10 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
           this.arduino.position.set(0, 0, 0); // Center the object
           this.scene.add(this.arduino); // Add the object to the scene
           console.log('Model added to the scene and ready for manipulation');
+          for(let i = 0; i < this.arduino.children.length; i++) {
+            console.warn(this.arduino.children.at(i));
+          }
+
         })
         .catch((error) => {
           console.error('Error loading model:', error);
@@ -119,22 +119,10 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
     this.controls.rotateSpeed = 0.1;
     this.controls.enableZoom = true;
     this.controls.autoRotate = false;  // Disable automatic rotation, we'll handle it manually
-
   }
 
   private getAspectRatio() {
     return this.canvas.clientWidth / this.canvas.clientHeight;
-  }
-
-  /**
-   * Animate the cube
-   *
-   * @private
-   * @memberof CubeComponent
-   */
-  private animateCube() {
-    // this.cube.rotation.x += this.rotationSpeedX;
-    // this.cube.rotation.y += this.rotationSpeedY;
   }
 
   /**
@@ -149,10 +137,12 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
 
+    // this.raycaster.layers.set(1);
+    this.canvas.addEventListener('mousedown', this.onMouseDown.bind(this));
+
     let component: NewModuleComponent = this;
     (function render() {
       requestAnimationFrame(render);
-      component.animateCube();
       component.renderer.render(component.scene, component.camera);
     }());
   }
@@ -162,9 +152,7 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
     this.startRenderingLoop();
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   private angleX = 0;
   private angleY = 0;
@@ -286,5 +274,48 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
     });
   }
 
+ // raycaster components
+  private onMouseDown(event) {
+    const coords = new THREE.Vector2(
+        (event.clientX / this.renderer.domElement.clientWidth) * 2 - 1,
+        (event.clientY / this.renderer.domElement.clientHeight) * 2 - 1
+    );
 
+    this.controls.update();  // if using OrbitControls
+    this.camera.updateMatrixWorld();
+    this.raycaster.setFromCamera(coords, this.camera);
+
+    if(this.arduino) {
+      this.hierarchy = [];
+
+      // get all child meshes
+      this.arduino.traverse((child) => {
+        // if ((child as THREE.Mesh).isMesh) {
+        if (child instanceof THREE.Mesh) {
+          this.hierarchy.push(child as THREE.Mesh);
+          child.castShadow = true;
+          child.receiveShadow = true;
+          child.raycast = THREE.Mesh.prototype.raycast;
+          child.geometry.computeBoundingSphere();
+          child.geometry.computeBoundingBox();
+          child.layers.enable(1);
+          this.camera.layers.enable(1);
+          this.raycaster.layers.enable(1);
+        }
+      })
+      console.warn(this.hierarchy);
+    }
+
+    const intersections = this.raycaster.intersectObjects(this.hierarchy, false);
+    if(intersections.length > 0) {
+       console.log(intersections[0]);
+       const selectedObject = intersections.at(0).object as THREE.Mesh;
+       const color = new THREE.Color(Math.random(), Math.random(), Math.random());
+       // intersections[0].object.setColorAt(intersections[0].instanceId, color);
+      this.renderer.render(this.scene, this.camera);
+      console.log(intersections[0].object.name, " was clicked!");
+    } else {
+      console.error('no intersections detected');
+    }
+  }
 }
