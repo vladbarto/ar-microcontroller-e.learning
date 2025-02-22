@@ -1,0 +1,11 @@
+# Ignore all .blend files
+*.blend
+
+# Ignore all .zip files (archives)
+*.zip
+
+# Ignore all BUILDS of student-client project (Unity)
+student-client/BUILDS/
+
+# Ignore all useless folders
+ImageToStl.com_arduino+uno+2/

@@ -9,6 +9,7 @@ import {ChefCardComponent} from "./chefs/chef-card/chef-card.component";
 import { HomeComponent } from './home/home.component';
 import { MaterialCardComponent } from './home/material-card/material-card.component';
 import { NewModuleComponent } from './new-module/new-module.component';
+import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
 
 
 
@@ -21,11 +22,13 @@ import { NewModuleComponent } from './new-module/new-module.component';
     MaterialCardComponent,
     NewModuleComponent
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    DashboardRoutingModule,
-    FormsModule
-  ]
+    imports: [
+        CommonModule,
+        SharedModule,
+        DashboardRoutingModule,
+        FormsModule,
+        MatMenuTrigger,
+        MatMenu
+    ]
 })
 export class DashboardModule { }
