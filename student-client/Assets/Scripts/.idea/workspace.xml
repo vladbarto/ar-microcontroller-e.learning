@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3a4278be-13ff-40bc-9c87-e6ad0c351c93" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../../common-backend/src/main/java/ro/ps/chefmgmtbackend/controller/JsonController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../BUILDS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../BUILDS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPad-152.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../BUILDS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPad-167.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../BUILDS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPad-76.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../BUILDS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPhone-120.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../BUILDS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPhone-180.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/chef-mgmt-frontend/.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/chef-mgmt-frontend/.tsbuildinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/@angular_common.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/@angular_common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/@angular_common_http.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/@angular_common_http.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/@angular_core.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/@angular_core.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/@angular_forms.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/@angular_forms.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/@angular_platform-browser.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/@angular_platform-browser.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/@angular_router.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/@angular_router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/_metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/chunk-APMNFYV2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/chunk-APMNFYV2.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/chunk-ITADWQPN.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/chunk-ITADWQPN.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/chunk-MEII74SL.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/chunk-MEII74SL.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/chunk-QOM64K4O.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/chunk-QOM64K4O.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/ngx-cookie-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/ngx-cookie-service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/three_examples_jsm_loaders_GLTFLoader__js.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/.angular/cache/17.3.3/vite/deps/three_examples_jsm_loaders_GLTFLoader__js.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/src/app/app.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/src/app/feature/dashboard/dashboard.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/src/app/feature/dashboard/dashboard.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/src/app/feature/dashboard/home/home.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/src/app/feature/dashboard/home/home.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/src/app/feature/dashboard/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/src/app/feature/dashboard/home/home.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/src/app/feature/dashboard/new-module/new-module.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/src/app/feature/dashboard/new-module/new-module.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/src/app/feature/dashboard/new-module/new-module.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/src/app/feature/dashboard/new-module/new-module.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../professor-frontend/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../../professor-frontend/src/styles.css" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/AuthController.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2t4yMFsJHBWfin2T9OxwNWsjibX" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3a4278be-13ff-40bc-9c87-e6ad0c351c93" name="Changes" comment="" />
+      <created>1739625592802</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1739625592802</updated>
+      <workItem from="1739625594555" duration="6432000" />
+      <workItem from="1739981788416" duration="5934000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>
