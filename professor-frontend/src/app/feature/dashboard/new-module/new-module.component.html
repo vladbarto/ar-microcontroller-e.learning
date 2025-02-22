@@ -1,0 +1,49 @@
+<div class="whole-page">
+<!--    Title-->
+  <div class="container pt-5 pb-5">
+    <h3>Create new learning module</h3>
+    <p>new-module works!</p>
+  </div>
+
+<!--    First Row-->
+  <div class="d-flex flex-row">
+<!--      Generated Script Editor-->
+    <div class="container pt-3" style="background-color: #292829; width: 27%">
+        <p class="fw-bold text-danger">Generated Script Viewer</p>
+        <button mat-icon-button [matMenuTriggerFor]="menu" >
+            <i class="fa-solid fa-wrench"></i>
+        </button>
+        <mat-menu #menu="matMenu" class="">
+            <button mat-menu-item (click)="jsonScript.addStep(); jsonScript.increaseStep()">Add step</button>
+            <button mat-menu-item (click)="jsonScript.sendToBackend().subscribe()">Save script</button>
+        </mat-menu>
+        <p> {{this.jsonScript.getJson()}}</p>
+    </div>
+
+
+<!--      3D Editor-->
+    <div class="" style="width: 100%">
+        <canvas #canvas id="canvas" style="height: 100%; width: 100%;"></canvas>
+    </div>
+
+<!--      Inspector-->
+    <div style="background-color: #292829; width: 20%; height: 100vh; overflow-y: auto; max-height: 100%">
+        <p class="fw-bold ps-3 pe-3 pt-3">Inspector</p>
+        <p>
+            @for(mesh of hierarchy; track mesh.id) {
+                <p
+                        class="selectable"
+                        [class.selected]="mesh.id === selectedMesh?.id"
+                        (click)="selectMesh(mesh)"
+                >{{mesh.name}}</p>
+            } @empty {
+                Click on the canvas
+            }
+        </p>
+
+    </div>
+  </div>
+<!--  Second Row-->
+
+</div>
+
