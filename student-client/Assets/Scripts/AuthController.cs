@@ -68,7 +68,7 @@ public class LoginManager : MonoBehaviour
                 }
 
                 // Load next scene after successful login
-                SceneManager.LoadScene("SampleScene"); // Change to your actual scene name
+                SceneManager.LoadScene("SampleScene");
             }
             else
             {
@@ -84,4 +84,19 @@ public class LoginManager : MonoBehaviour
         Match match = Regex.Match(cookie, @"jwt-token=([^;]+)"); // Match the token
         return match.Success ? match.Groups[1].Value : null;
     }
+
+    // ---------------------------- Logout side
+    public void Logout()
+    {
+        LogoutCoroutine();
+    }
+
+    private void LogoutCoroutine()
+    {
+        PlayerPrefs.DeleteKey("auth_token");
+
+        // Load Login scene
+        SceneManager.LoadScene("LoginScene");
+    }
+
 }
