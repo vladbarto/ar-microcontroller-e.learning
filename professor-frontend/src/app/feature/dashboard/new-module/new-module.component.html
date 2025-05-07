@@ -2,21 +2,62 @@
 <!--    Title-->
   <div class="container pt-5 pb-5">
     <h3>Create new learning module</h3>
-    <p>new-module works!</p>
   </div>
 
-<!--    First Row-->
+    <div *ngIf="wizardFormIsOpened" class="overlay-backdrop d-flex" (click)="closeWizardForm($event)">
+        <div class="overlay-content" (click)="$event.stopPropagation()">
+            <app-wizard-form
+                (wizardClosed)="closeWizardForm($event)"
+                (subtitle)="saveSubtitle($event)"
+                (aim)="saveAim($event)"
+            ></app-wizard-form>
+        </div>
+    </div>
+
+
+    <!--    First Row-->
   <div class="d-flex flex-row">
 <!--      Generated Script Editor-->
     <div class="container pt-3" style="background-color: #292829; width: 27%">
         <p class="fw-bold text-danger">Generated Script Viewer</p>
-        <button mat-icon-button [matMenuTriggerFor]="menu" >
-            <i class="fa-solid fa-wrench"></i>
-        </button>
-        <mat-menu #menu="matMenu" class="">
-            <button mat-menu-item (click)="jsonScript.addStep(); jsonScript.increaseStep()">Add step</button>
-            <button mat-menu-item (click)="jsonScript.sendToBackend().subscribe()">Save script</button>
-        </mat-menu>
+
+<!--        Settings area-->
+        <div class="d-flex flex-column p-2" style="background-color: rgba(146,146,155,50%)">
+<!--            Add:
+                    step
+                    description and input
+                    action and selection box-->
+            <span>Add...</span>
+
+<!--            Step-->
+            <button class="btn myButton" (click)="jsonScript.addStep(); jsonScript.increaseStep()">
+                step</button>
+
+<!--            Description-->
+            <div class="d-flex">
+
+                <input #descInput type="text" placeholder="Enter description" class="form-control me-3"/>
+                <button class="btn myButton" (click)="jsonScript.addDescriptionToStep(descInput.value);">
+                    description</button>
+            </div>
+
+<!--            Action-->
+            <button class="btn dropdown-toggle myButton" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                action
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
+                <li *ngFor="let action of actionList" class="dropdown-item" (click)="jsonScript.addActionToStep(action)">
+                    {{ action }}
+                </li>
+
+            </div>
+
+            <p></p>
+            Others:
+            <button class="btn btn-success border-0 rounded-1" (click)="jsonScript.sendToBackend().subscribe()">
+                Save script</button>
+
+        </div>
         <p> {{this.jsonScript.getJson()}}</p>
     </div>
 
@@ -24,10 +65,32 @@
 <!--      3D Editor-->
     <div class="" style="width: 100%">
         <canvas #canvas id="canvas" style="height: 100%; width: 100%;"></canvas>
+<!--        Inventory beneath 3D editor-->
+        <div class="h-25 text-black container d-flex flex-row panel" style="background-color: bisque">
+            <div class="p-3 w-25 bg-info">
+                Butoane stanga dreapta si selectare categorie (echipamente, fire)
+                <button class="btn">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="btn">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <div class="p-3 bg-light w-100 d-flex flex-row align-items-start">
+                <button class="btn box cube-red">
+                    <img class="icon" src="https://i.imgur.com/v7T0xGw.png" />
+                </button>
+                <div class="box cube-green">
+                    <img class="icon" src="https://i.imgur.com/2v3eB2j.png" />
+                </div>
+            </div>
+
+        </div>
     </div>
 
 <!--      Inspector-->
-    <div style="background-color: #292829; width: 20%; height: 100vh; overflow-y: auto; max-height: 100%">
+    <div style="background-color: #292829; width: 20%; height: 100vh; overflow-y: auto; max-height: 100%" (contextmenu)="onRightClick($event)">
         <p class="fw-bold ps-3 pe-3 pt-3">Inspector</p>
         <p>
             @for(mesh of hierarchy; track mesh.id) {
@@ -42,8 +105,31 @@
         </p>
 
     </div>
+
+      <!-- an hidden div is created to set the position of appearance of the menu-->
+      <!-- The hidden element that serves as the menu anchor point -->
+      <div style="visibility: hidden; position: fixed;" class="d-flex flex-column"
+           [style.left]="menuTopLeftPosition.x"
+           [style.top]="menuTopLeftPosition.y">
+          <!-- This is the element that should be referenced by your ViewChild -->
+          <button mat-button [matMenuTriggerFor]="rightMenu" #matMenuTrigger="matMenuTrigger"></button>
+      </div>
+
+      <!-- standard material menu -->
+      <mat-menu #rightMenu="matMenu">
+          <div class="d-flex flex-column p-2">
+              <p class="m-0" style="color:gray">Component:</p>
+              <button class="btn myButton" mat-menu-item (click)="jsonScript.addTargetToStep(this.selectedMesh.name)">
+                  Add to current step</button>
+              <button class="btn myButton" mat-menu-item>Open</button>
+              <button class="btn myButton" mat-menu-item>Option 3</button>
+              <button class="btn myButton" mat-menu-item>Option 4</button>
+          </div>
+      </mat-menu>
+
+
   </div>
-<!--  Second Row-->
+<!--  Second Row -->
 
 </div>
 

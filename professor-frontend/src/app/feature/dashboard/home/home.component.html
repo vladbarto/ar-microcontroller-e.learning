@@ -39,7 +39,7 @@
         </div>
 
         <div class="p-2">
-          @for (learningModule of learningModules; track learningModule.id) {
+          @for (learningModule of learningModules; track learningModule.wizardId) {
             <app-material-card [learningModule]="learningModule"></app-material-card>
           } @empty {
             <p>No material listed yet</p>

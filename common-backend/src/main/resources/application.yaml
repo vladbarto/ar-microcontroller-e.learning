@@ -1,6 +1,6 @@
 spring:
   application:
-    name: common-backend
+    name: licenta-backend
   datasource:
     url: jdbc:postgresql://localhost:5432/embedded_systems_db
     username: postgres

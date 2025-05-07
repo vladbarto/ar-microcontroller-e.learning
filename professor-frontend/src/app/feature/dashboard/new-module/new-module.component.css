@@ -19,3 +19,57 @@
   color: #ffae28;
   /*font-weight: bold;*/
 }
+
+.context-menu {
+  margin: 2pt;
+  border-radius: 5%;
+}
+
+.myButton {
+  background-color: transparent;
+  padding: 2px;
+}
+
+.myButton:hover {
+  color: #ffffff;
+  background-color: #0d67ca;
+}
+
+.overlay-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.overlay-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+}
+
+.custom-menu {
+  position: absolute;
+  top: 60px; /* adjust based on your button position */
+  left: 20px; /* same */
+  background-color: rgba(146, 146, 155, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
+  width: 250px;
+}
+
+.submenu {
+  background-color: rgba(50, 50, 50, 0.8);
+  border-radius: 4px;
+  padding: 5px;
+}

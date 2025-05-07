@@ -11,6 +11,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(credentials: LoginModel): Observable<void> {
+    console.log("Login request sent");
     return this.http.post<void>('auth/v1/login', credentials);
   }
 }

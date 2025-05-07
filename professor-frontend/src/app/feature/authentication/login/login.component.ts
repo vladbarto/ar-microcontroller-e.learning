@@ -58,9 +58,14 @@ export class LoginComponent implements OnInit, OnDestroy {
       email: this.loginForm?.get('email')?.value,
       password: this.loginForm?.get('password2')?.value
     };
+
     this.loginSubscription = this.authService.login(credentials).subscribe({
-      next: () => this.getUserInfo(),
-      error: () => this.errorMessage = 'Invalid credentials'
+      next: () => {
+        this.getUserInfo();
+      },
+      error: () => {
+        this.errorMessage = 'Invalid credentials';
+      }
     });
   }
 

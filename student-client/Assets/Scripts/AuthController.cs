@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 using System.Text;
 using System.Text.RegularExpressions; // For extracting cookie values
 
+using static LicentaUtils.Environment; 
+
 public class LoginManager : MonoBehaviour
 {
     public TMP_InputField emailField;
@@ -14,7 +16,13 @@ public class LoginManager : MonoBehaviour
     public TextMeshProUGUI errorMessage;
     public Button loginButton;
 
-    private string loginUrl = "http://192.168.0.111:2003/api/auth/v1/login"; // Your backend URL
+    //"http://10.132.87.98:2003/api/auth/v1/login";
+    //"http://172.20.10.2:2003/api/auth/v1/login";
+    //"http://192.168.0.102:2003/api/auth/v1/login"; // Your backend URL
+    //"http://localhost:2003/api/auth/v1/login";
+
+    private string loginUrl = string.Format("{0}{1}{2}", getBackendBaseUrl(), AUTH_CONTROLLER, AUTH_LOGIN_ENDPOINT);
+
     private string cookieHeader = "Set-Cookie"; // HTTP Header where cookies are received
 
     void Start()
@@ -54,7 +62,7 @@ public class LoginManager : MonoBehaviour
                     if (!string.IsNullOrEmpty(jwtToken))
                     {
                         PlayerPrefs.SetString("auth_token", jwtToken);
-                        PlayerPrefs.Save();
+                        PlayerPrefs.Save(); // to persist the token
                         Debug.Log("JWT Token Saved: " + jwtToken);
                     }
                     else
@@ -73,6 +81,7 @@ public class LoginManager : MonoBehaviour
             else
             {
                 Debug.LogError("Login Failed: " + request.error);
+                Debug.LogError("URL: " + loginUrl);
                 errorMessage.text = "Invalid credentials. Please try again.";
             }
         }

@@ -13,30 +13,41 @@ export class JsonScriptService {
       private http: HttpClient
   ) {
     this.stepIdx = 1;
+    this.json["subtitle"] = '';
+    this.json['aim'] = '';
+    this.json['pages'] = {};
   }
 
 //   manipulate json
 
-  public createJsonScriptFile() {
-    this.json = {};
-    this.stepIdx = 1;
+  public editHeaderSubtitle(subtitle: string) {
+    if(null != subtitle || 0 < subtitle.length)
+      this.json['subtitle'] = subtitle;
+  }
+
+  public editHeaderAim(aim: string) {
+    if(null != aim || 0 < aim.length)
+      this.json['aim'] = aim;
   }
 
   public addStep() {
-    this.json[this.stepIdx] = {};
+    this.json['pages'][this.stepIdx] = {};
   }
 
   public increaseStep() {
     this.stepIdx ++;
   }
 
-  public addAimedComponentToStep(objectName: string) {
-    if (!this.json[this.stepIdx]) {
-      this.addStep(); // Ensure step exists before adding data
-    }
+  public addTargetToStep(objectName: string) {
+    this.json['pages'][this.stepIdx-1]['target'] = objectName;
+  }
 
-    this.json[this.stepIdx]['aimed_component'] = objectName;
-    console.log(this.json);
+  public addDescriptionToStep(description: string ) {
+    this.json['pages'][this.stepIdx-1]['description'] = description;
+  }
+
+  public addActionToStep(action: string ) {
+    this.json['pages'][this.stepIdx-1]['action'] = action.toUpperCase();
   }
 
   public getJson(): any {

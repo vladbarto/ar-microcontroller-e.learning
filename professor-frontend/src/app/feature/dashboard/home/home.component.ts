@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
 import {UserModel} from "../../../shared/models/user.model";
 import {BrowserStorageService} from "../../../core/service/browserStorage/browser-storage.service";
 import {Router} from "@angular/router";
-import {LearningModuleModel} from "../../../shared/models/learning-module.model";
+import {WizardModel} from "../../../shared/models/wizard.model";
 import {JsonScriptService} from "../../../core/service/json-script/json-script.service";
+import {WizardService} from "../../../core/service/wizard/wizard.service";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-home',
@@ -14,18 +16,21 @@ import {JsonScriptService} from "../../../core/service/json-script/json-script.s
 export class HomeComponent implements OnInit{
   protected loggedUser: UserModel = {email: "", id: "", role: ""};
   protected editMode: boolean = false;
-  protected learningModules: LearningModuleModel[] = [];
+  protected learningModules: WizardModel[] = [];
 
   constructor(
     private browserStorage: BrowserStorageService,
     private router: Router,
-    private jsonScript: JsonScriptService
+    private jsonScript: JsonScriptService,
+    private wizardService: WizardService,
+    private destroyRef: DestroyRef
   ) {
   }
 
   ngOnInit() {
     this.loggedUser = this.browserStorage.getUser();
     console.log(this.loggedUser);
+    this.fetchMaterials();
   }
 
   protected logOut() {
@@ -36,7 +41,11 @@ export class HomeComponent implements OnInit{
     this.router.navigate([`${pageName}`]);
   }
 
-  protected createScript() {
-    this.jsonScript.createJsonScriptFile();
+  private fetchMaterials() {
+    this.wizardService.getAllMain()
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: response => this.learningModules = response, error: err => console.error(err),
+        });
   }
 }

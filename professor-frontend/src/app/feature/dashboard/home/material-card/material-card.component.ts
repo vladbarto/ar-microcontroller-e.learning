@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {ChefModel} from "../../../../shared/models/chef.model";
-import {LearningModuleModel} from "../../../../shared/models/learning-module.model";
+import {WizardModel} from "../../../../shared/models/wizard.model";
 
 @Component({
   selector: 'app-material-card',
@@ -8,5 +7,5 @@ import {LearningModuleModel} from "../../../../shared/models/learning-module.mod
   styleUrl: './material-card.component.css'
 })
 export class MaterialCardComponent {
-  @Input() learningModule!: LearningModuleModel;
+  @Input() learningModule!: WizardModel;
 }

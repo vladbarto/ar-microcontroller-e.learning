@@ -1,6 +1,7 @@
 .whole-page {
   background-color: #080d25;
   color: #b9bbcb;
+  height: 100vh;
 }
 
 .user-info-container {
