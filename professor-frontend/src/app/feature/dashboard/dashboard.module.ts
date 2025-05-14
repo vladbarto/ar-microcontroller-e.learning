@@ -8,6 +8,7 @@ import { MaterialCardComponent } from './home/material-card/material-card.compon
 import { NewModuleComponent } from './new-module/new-module.component';
 import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
 import { WizardFormComponent } from './new-module/wizard-form/wizard-form.component';
+import { InspectorNodeComponent } from './new-module/inspector-node/inspector-node.component';
 
 
 
@@ -17,6 +18,7 @@ import { WizardFormComponent } from './new-module/wizard-form/wizard-form.compon
     MaterialCardComponent,
     NewModuleComponent,
     WizardFormComponent,
+    InspectorNodeComponent,
   ],
     imports: [
         CommonModule,

@@ -78,33 +78,28 @@
             </div>
 
             <div class="p-3 bg-light w-100 d-flex flex-row align-items-start">
-                <button class="btn box cube-red">
-                    <img class="icon" src="https://i.imgur.com/v7T0xGw.png" />
+                <button class="btn box cube-red" (click)="addRedBlock()">
+                    <img class="icon" src="assets/objects_and_materials/key/key.png" />
                 </button>
-                <div class="box cube-green">
-                    <img class="icon" src="https://i.imgur.com/2v3eB2j.png" />
-                </div>
+                <button class="btn box cube-green" (click)="addGreenBlock()">
+                    <img class="icon" src="assets/objects_and_materials/keymatrix/keymatrix.png" />
+                </button>
             </div>
 
         </div>
     </div>
 
 <!--      Inspector-->
-    <div style="background-color: #292829; width: 20%; height: 100vh; overflow-y: auto; max-height: 100%" (contextmenu)="onRightClick($event)">
-        <p class="fw-bold ps-3 pe-3 pt-3">Inspector</p>
-        <p>
-            @for(mesh of hierarchy; track mesh.id) {
-                <p
-                        class="selectable"
-                        [class.selected]="mesh.id === selectedMesh?.id"
-                        (click)="selectMesh(mesh)"
-                >{{mesh.name}}</p>
-            } @empty {
-                Click on the canvas
-            }
-        </p>
-
-    </div>
+      <div style="background-color: #292829; width: 20%; height: 100vh; overflow-y: auto;" (contextmenu)="onRightClick($event)">
+          <p class="fw-bold ps-3 pe-3 pt-3">Inspector</p>
+          <ng-container *ngFor="let node of hierarchyTree">
+              <app-inspector-node
+                      [node]="node"
+                      [selected]="selectedMesh"
+                      (select)="selectMesh($event)">
+              </app-inspector-node>
+          </ng-container>
+      </div>
 
       <!-- an hidden div is created to set the position of appearance of the menu-->
       <!-- The hidden element that serves as the menu anchor point -->

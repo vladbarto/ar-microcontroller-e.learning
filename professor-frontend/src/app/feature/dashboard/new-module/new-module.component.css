@@ -73,3 +73,16 @@
   border-radius: 4px;
   padding: 5px;
 }
+
+.box {
+  height: 150px;
+  width: 200px;
+  overflow: hidden;
+}
+
+.icon {
+  width: 200px;
+  height: auto;
+  object-fit: contain;
+}
+

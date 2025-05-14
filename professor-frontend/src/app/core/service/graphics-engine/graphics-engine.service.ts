@@ -9,6 +9,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import GUI from 'three/examples/jsm/libs/lil-gui.module.min';
 import { JsonScriptService } from '../json-script/json-script.service';
 import { Mesh } from 'three';
+import {DragControls} from "three/examples/jsm/controls/DragControls";
 
 @Injectable({ providedIn: 'root' })
 export class GraphicsEngineService {
@@ -32,19 +33,22 @@ export class GraphicsEngineService {
         PIO_SODR: 0
     };
 
+    private sceneHierarchy: THREE.Object3D[] = []; // top-level objects like Arduino, others
     private _hierarchy: Mesh[] = [];
     private _selectedMesh: Mesh | null = null;
+    private dragControls: DragControls;
 
     constructor(private jsonScript: JsonScriptService) {}
 
     public async init(canvas: HTMLCanvasElement): Promise<void> {
         this.setupScene(canvas);
-        await this.loadModel();
+        await this.loadArduino();
         this.setupPostProcessing();
         this.setupGui();
         this.addAxesHelper();
         this.animate();
         canvas.addEventListener('mousedown', this.onMouseDown.bind(this));
+        this.setupKeyListener();
     }
 
     private setupScene(canvas: HTMLCanvasElement): void {
@@ -83,36 +87,39 @@ export class GraphicsEngineService {
         this.composer.addPass(this.outlinePass);
     }
 
-    private async loadModel(): Promise<void> {
-        const mtlLoader = new MTLLoader();
-        const materials = await mtlLoader.loadAsync('assets/objects_and_materials/board/arduino-due.mtl');
-        materials.preload();
-
+    public async loadModel(objPath: string, mtlPath?: string, texturePath?: string): Promise<THREE.Object3D> {
         const objLoader = new OBJLoader();
-        objLoader.setMaterials(materials);
-        this.arduino = await objLoader.loadAsync('assets/objects_and_materials/board/arduino-due.obj');
 
-        const texture = new THREE.TextureLoader().load('assets/objects_and_materials/board/arduino-due.jpg');
+        if (mtlPath) {
+            const mtlLoader = new MTLLoader();
+            const materials = await mtlLoader.loadAsync(mtlPath);
+            materials.preload();
+            objLoader.setMaterials(materials);
+        }
 
-        this.arduino.traverse(child => {
-            if (child instanceof THREE.Mesh) {
-                const mat = child.material;
-                if (Array.isArray(mat)) {
-                    mat.forEach(m => {
-                        if (m instanceof THREE.MeshStandardMaterial) {
-                            m.map = texture;
-                            m.needsUpdate = true;
-                        }
-                    });
-                } else if (mat instanceof THREE.MeshStandardMaterial) {
-                    mat.map = texture;
-                    mat.needsUpdate = true;
+        const object = await objLoader.loadAsync(objPath);
+
+        if (texturePath) {
+            const texture = new THREE.TextureLoader().load(texturePath);
+            object.traverse(child => {
+                if (child instanceof THREE.Mesh) {
+                    const mat = child.material;
+                    if (Array.isArray(mat)) {
+                        mat.forEach(m => {
+                            if (m instanceof THREE.MeshStandardMaterial) {
+                                m.map = texture;
+                                m.needsUpdate = true;
+                            }
+                        });
+                    } else if (mat instanceof THREE.MeshStandardMaterial) {
+                        mat.map = texture;
+                        mat.needsUpdate = true;
+                    }
                 }
-            }
-        });
+            });
+        }
 
-        this.arduino.position.set(0, 0, 0);
-        this.scene.add(this.arduino);
+        return object;
     }
 
     private onMouseDown(event: MouseEvent): void {
@@ -173,18 +180,29 @@ export class GraphicsEngineService {
         this.scene.add(ox, oy, oz);
     }
 
-    public render(): void {
-        this.renderer.render(this.scene, this.camera);
+    private async loadArduino() {
+        this.arduino = await this.loadModel(
+            'assets/objects_and_materials/board/arduino-due.obj',
+            'assets/objects_and_materials/board/arduino-due.mtl',
+            'assets/objects_and_materials/board/arduino-due.jpg'
+        );
+        this.arduino.name = "Arduino Due (Cortex M3)"
+        this.arduino.position.set(0, 0, 0);
+        this.scene.add(this.arduino);
+        this.objects.push(this.arduino);
+        this.sceneHierarchy.push(this.arduino);
+        this.rebuildHierarchy();
     }
 
-    public cloneArduino(): THREE.Object3D | null {
-        return this.arduino?.clone() ?? null;
+    public async addObject(objectTtile: string, objPath: string, mtlPath?: string, texturePath?: string ): Promise<void> {
+        const object = await this.loadModel(objPath, mtlPath, texturePath);
+        object.name = objectTtile
+        this.scene.add(object);
+        this.objects.push(object);
+        this.sceneHierarchy.push(object);
+        this.rebuildHierarchy();
     }
 
-    public addObject(obj: THREE.Object3D): void {
-        this.scene.add(obj);
-        this.objects.push(obj);
-    }
 
     get hierarchy(): Mesh[] {
         return this._hierarchy;
@@ -194,9 +212,13 @@ export class GraphicsEngineService {
         return this._selectedMesh;
     }
 
-    public selectMesh(mesh: Mesh): void {
-        this._selectedMesh = mesh;
-        this.outlinePass.selectedObjects = [mesh]; // highlight visually
+    get hierarchyTree(): THREE.Object3D[] {
+        return this.sceneHierarchy;
+    }
+
+    public selectMesh(meshOrParent: THREE.Object3D): void {
+        this._selectedMesh = meshOrParent as Mesh;
+        this.outlinePass.selectedObjects = [meshOrParent];
     }
 
     public setupGui() {
@@ -214,4 +236,67 @@ export class GraphicsEngineService {
             });
         });
     }
+
+    private rebuildHierarchy(): void {
+        this._hierarchy = [];
+
+        const allObjects = [this.arduino, ...this.objects].filter(Boolean);
+        allObjects.forEach(obj => {
+            obj.traverse(child => {
+                if (child instanceof THREE.Mesh) {
+                    this._hierarchy.push(child);
+                    child.geometry.computeBoundingBox();
+                    child.geometry.computeBoundingSphere();
+                    child.layers.enable(1);
+                }
+            });
+        });
+
+        this.camera.layers.enable(1);
+        this.raycaster.layers.enable(1);
+    }
+
+    private setupDragControls(selectedObject: THREE.Object3D | null): void {
+        if (!selectedObject) return;
+
+        const dragTargets: THREE.Object3D[] = [];
+
+        // Traverse through selectedObject and collect parent/children.
+        selectedObject.traverse(child => {
+            if (child instanceof THREE.Mesh) {
+                dragTargets.push(child); // allow dragging children too
+            }
+        });
+
+        if (this.dragControls) this.dragControls.dispose(); // reset if already set
+
+        this.dragControls = new DragControls(dragTargets, this.camera, this.renderer.domElement);
+
+        this.dragControls.addEventListener('dragstart', (event) => {
+            this.controls.enabled = false;
+        });
+
+        this.dragControls.addEventListener('dragend', (event) => {
+            this.controls.enabled = true;
+            this.selectMesh(event.object); // Update selected mesh after drag
+        });
+    }
+
+    public activateDragControls(): void {
+        if (this.selectedMesh) {
+            this.setupDragControls(this.selectedMesh); // Activate drag controls on the selected mesh
+        }
+    }
+
+
+    public setupKeyListener(): void {
+        window.addEventListener('keydown', this.onKeyDown.bind(this));
+    }
+
+    private onKeyDown(event: KeyboardEvent): void {
+        if (event.key === 'g' || event.key === 'G') {
+            this.activateDragControls();
+        }
+    }
+
 }

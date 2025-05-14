@@ -9,6 +9,6 @@ export const environment = {
     },
     //----------------------------------------
     // Action set
-    ACTION: ['Ronaldo', 'Clear', 'Set', 'Open', 'Connect'],
-    wizardOpenState: false
+    ACTION: ['Clear', 'Set', 'Open', 'Connect'],
+    wizardOpenState: true
 };

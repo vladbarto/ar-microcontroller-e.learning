@@ -10,6 +10,7 @@ import { JsonScriptService } from "../../../core/service/json-script/json-script
 import { GraphicsEngineService } from "../../../core/service/graphics-engine/graphics-engine.service";
 import { environment } from "../../../../environments/environment.development";
 import {Mesh} from "three";
+import * as THREE from 'three';
 
 @Component({
   selector: 'app-new-module',
@@ -44,12 +45,18 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
     return this.graphicsEngine.hierarchy;
   }
 
+  get hierarchyTree(): THREE.Object3D[] {
+    return this.graphicsEngine.hierarchyTree;
+  }
+
   get selectedMesh(): Mesh | null {
     return this.graphicsEngine.selectedMesh;
   }
 
-  selectMesh(mesh: Mesh): void {
-    this.graphicsEngine.selectMesh(mesh);
+  selectMesh(obj: THREE.Object3D): void {
+    if (obj instanceof THREE.Mesh) {
+      this.graphicsEngine.selectMesh(obj);
+    }
   }
 
 
@@ -76,9 +83,22 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
     this.jsonScript.editHeaderAim(aim);
   }
 
-  // Optional hooks if needed:
-  // addRedBlock() {
-  //   this.graphicsEngine.addObject(this.graphicsEngine.cloneArduino());
-  // }
+  addRedBlock() {
+    this.graphicsEngine.addObject(
+        "simple key",
+        "assets/objects_and_materials/key/key.obj",
+        "assets/objects_and_materials/key/key.mtl",
+        "/Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/professor-frontend/src/assets/jag-texture.png"
+    );
+  }
+
+  addGreenBlock() {
+    this.graphicsEngine.addObject(
+        "key matrix",
+        "assets/objects_and_materials/keymatrix/keymatrix.obj",
+        "assets/objects_and_materials/keymatrix/keymatrix.mtl",
+        "/Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/professor-frontend/src/assets/jag-texture.png"
+    );
+  }
 
 }

@@ -99,6 +99,7 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+<!--					<classifier>exec</classifier>-->
 				</configuration>
 			</plugin>
 			<plugin>

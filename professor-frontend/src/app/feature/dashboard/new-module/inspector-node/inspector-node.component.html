@@ -1,0 +1,19 @@
+<div style="padding-left: 10px">
+    <p
+            class="selectable"
+            [class.selected]="isSelected()"
+            (click)="select.emit(node)"
+            (dblclick)="toggle()"
+    >
+        {{node.name || 'Unnamed'}}
+    </p>
+    <ng-container *ngIf="expanded && node.children?.length">
+        <ng-container *ngFor="let child of node.children">
+            <app-inspector-node
+                    [node]="child"
+                    [selected]="selected"
+                    (select)="select.emit($event)">
+            </app-inspector-node>
+        </ng-container>
+    </ng-container>
+</div>

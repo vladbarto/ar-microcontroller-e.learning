@@ -1,0 +1,16 @@
+.selectable {
+    cursor: pointer;
+    padding-left: 10px;
+    margin-bottom: 0;
+    transition: background 0.3s;
+}
+
+.selectable:hover {
+    background-color: #444;
+}
+
+.selected {
+    background-color: #324d80;
+    color: #ffae28;
+    /*font-weight: bold;*/
+}
