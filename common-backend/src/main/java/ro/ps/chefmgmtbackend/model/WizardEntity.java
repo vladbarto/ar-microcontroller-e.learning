@@ -22,10 +22,10 @@ public class WizardEntity {
     @OneToMany(mappedBy = "wizard", cascade = CascadeType.ALL, fetch = FetchType.EAGER)//, orphanRemoval = true)
     private List<WizardPageEntity> steps;
 
-    @Column(name = "SUBTITLE", nullable = false)
+    @Column(name = "SUBTITLE", nullable = false, columnDefinition = "TEXT")
     private String subtitle;
 
-    @Column(name = "AIM", nullable = false)
+    @Column(name = "AIM", nullable = false, columnDefinition = "TEXT")
     private String aim;
 }
 

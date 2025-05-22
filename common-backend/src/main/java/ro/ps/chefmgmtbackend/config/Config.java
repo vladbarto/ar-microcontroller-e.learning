@@ -32,17 +32,15 @@ public class Config {
     public WizardService wizardServiceBean(
             WizardRepository wizardRepository,
             WizardMapper wizardMapper,
-            ObjectMapper objectMapper,
             @Value("${spring.application.name:BACKEND}") String applicationName
     ) {
-        return new WizardServiceBean(wizardRepository, wizardMapper, objectMapper, applicationName);
+        return new WizardServiceBean(wizardRepository, wizardMapper, applicationName);
     }
 
     @Bean
     public WizardPageService wizardPageServiceBean(
             WizardPageRepository wizardPageRepository,
             WizardPageMapper wizardPageMapper,
-//            ObjectMapper objectMapper,
             @Value("${spring.application.name:BACKEND}") String applicationName
     ) {
         return new WizardPageServiceBean(wizardPageRepository, wizardPageMapper, applicationName);

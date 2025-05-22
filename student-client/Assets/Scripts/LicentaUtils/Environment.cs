@@ -12,7 +12,7 @@ namespace LicentaUtils
 
         // Connection to Java Spring Backend
         public static string BACKEND_PROTOCOL = "http://";
-        public static string BACKEND_DST_IP_ADDRESS = "localhost";//"192.168.1.164"; // might be localhost
+        public static string BACKEND_DST_IP_ADDRESS = "10.132.114.224"; // might be "localhost";
         public static string BACKEND_DST_PORT = "2003";
         public static string BACKEND_CONTEXT_PATH = "/api";
 

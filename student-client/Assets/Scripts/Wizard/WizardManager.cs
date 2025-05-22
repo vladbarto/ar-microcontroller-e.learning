@@ -6,16 +6,12 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using TMPro;
 using Newtonsoft.Json;
-using UnityEngine.SceneManagement;
 using static LicentaUtils.Environment;
 
 public class WizardManager : MonoBehaviour
 {
     
-     private string apiBaseUrl = getBackendBaseUrl();
-    //"http://10.132.87.98:2003/api";
-    //"http://172.20.10.2:2003/api";
-    //"http://192.168.0.102:2003/api";
+    private string apiBaseUrl = getBackendBaseUrl();
     private string getWizardsEndpoint = string.Format("{0}{1}", WIZARD_CONTROLLER, WIZARD_GET_ALL_ENDPOINT); //"/wizard/v1/all-main";
     private string authTokenKey = AUTH_TOKEN; //"auth_token"; // PlayerPrefs key for the token
 
@@ -25,8 +21,8 @@ public class WizardManager : MonoBehaviour
     [SerializeField] private GameObject loadingPanel;
     [SerializeField] private TMP_Text errorText;
 
-    private int noOfCards = 0;
     private int cardIdx = 0;
+    private int noOfCards = 0;
 
     // Model classes to deserialize JSON response
     [Serializable]

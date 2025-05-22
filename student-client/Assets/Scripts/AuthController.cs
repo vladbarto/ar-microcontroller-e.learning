@@ -15,11 +15,7 @@ public class LoginManager : MonoBehaviour
     public TMP_InputField passwordField;
     public TextMeshProUGUI errorMessage;
     public Button loginButton;
-
-    //"http://10.132.87.98:2003/api/auth/v1/login";
-    //"http://172.20.10.2:2003/api/auth/v1/login";
-    //"http://192.168.0.102:2003/api/auth/v1/login"; // Your backend URL
-    //"http://localhost:2003/api/auth/v1/login";
+    public Toggle showPasswordToggle;
 
     private string loginUrl = string.Format("{0}{1}{2}", getBackendBaseUrl(), AUTH_CONTROLLER, AUTH_LOGIN_ENDPOINT);
 
@@ -27,6 +23,8 @@ public class LoginManager : MonoBehaviour
 
     void Start()
     {
+        HidePassword();
+        showPasswordToggle.onValueChanged.AddListener(OnToggleShowPassword);
         loginButton.onClick.AddListener(AttemptLogin);
     }
 
@@ -40,6 +38,7 @@ public class LoginManager : MonoBehaviour
     {
         string jsonBody = "{\"email\":\"" + emailField.text + "\",\"password\":\"" + passwordField.text + "\"}";
         byte[] jsonBytes = Encoding.UTF8.GetBytes(jsonBody);
+
 
         using (UnityWebRequest request = new UnityWebRequest(loginUrl, "POST"))
         {
@@ -94,18 +93,24 @@ public class LoginManager : MonoBehaviour
         return match.Success ? match.Groups[1].Value : null;
     }
 
-    // ---------------------------- Logout side
-    public void Logout()
+    private void OnToggleShowPassword(bool isOn)
     {
-        LogoutCoroutine();
+        if (isOn)
+            ShowPassword();
+        else
+            HidePassword();
     }
 
-    private void LogoutCoroutine()
+    public void HidePassword()
     {
-        PlayerPrefs.DeleteKey("auth_token");
+        passwordField.contentType = TMP_InputField.ContentType.Password;
+        passwordField.ForceLabelUpdate();
+    }
 
-        // Load Login scene
-        SceneManager.LoadScene("LoginScene");
+    public void ShowPassword()
+    {
+        passwordField.contentType = TMP_InputField.ContentType.Standard;
+        passwordField.ForceLabelUpdate();
     }
 
 }

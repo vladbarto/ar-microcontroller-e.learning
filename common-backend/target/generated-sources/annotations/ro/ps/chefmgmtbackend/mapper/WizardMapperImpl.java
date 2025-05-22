@@ -11,8 +11,8 @@ import ro.ps.chefmgmtbackend.model.WizardEntity;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-14T13:09:18+0300",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.1 (Homebrew)"
+    date = "2025-05-21T23:54:44+0300",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.1 (Oracle Corporation)"
 )
 @Component
 public class WizardMapperImpl implements WizardMapper {
@@ -42,7 +42,6 @@ public class WizardMapperImpl implements WizardMapper {
 
         WizardEntity.WizardEntityBuilder wizardEntity = WizardEntity.builder();
 
-        wizardEntity.wizardId( requestDTO.getWizardId() );
         wizardEntity.subtitle( requestDTO.getSubtitle() );
         wizardEntity.aim( requestDTO.getAim() );
 
@@ -58,6 +57,7 @@ public class WizardMapperImpl implements WizardMapper {
         WizardResponseDTO.WizardResponseDTOBuilder wizardResponseDTO = WizardResponseDTO.builder();
 
         wizardResponseDTO.pages( wizardPageMapper.entityListToResponseDTOList( entity.getSteps() ) );
+        wizardResponseDTO.wizardId( entity.getWizardId() );
         wizardResponseDTO.subtitle( entity.getSubtitle() );
         wizardResponseDTO.aim( entity.getAim() );
 

@@ -1,0 +1,46 @@
+{
+  "subtitle": "Power Up!",
+  "aim": "Power supply for Arduino Board",
+  "pages": {
+    "1": {
+      "target": "Power_Input_VIN_6_20V",
+      "description": "Arduino boards with onboard barrel jacks are configured with positive polarity; this means a negative sleeve and a positive pin. Boards with an onboard barreljack use a negative 5.5mm sleeve and a 2.1mm positive pin. The voltage line from the barrel jack connector is regulated in Arduino boards using their onboard voltage regulator; usually, it is first regulated to 5V and then regulated again to 3V3",
+      "action": "CONNECT"
+    },
+    "2": {
+      "target": "USB_Port",
+      "action": "CONNECT",
+      "description": "Aka Micro USB (Type B), this port is an ALTERNATIVE for powering up the board. It delivers exactly 5V. USB host device (what is at the other end of the cable) can be: Computer, Powerbank, plug socket"
+    },
+    "3": {
+      "target": "USB_Port.001",
+      "description": "The same goes for this port",
+      "action": "CONNECT"
+    },
+    "4": {
+      "target": "Pin_27_21_SCL.054",
+      "description": "VIN Port for voltages in range 7-12V. Any voltage supply has to be connected to VIN and Ground. Voltage goes to the board 5V regulator",
+      "action": "CONNECT"
+    },
+    "5": {
+      "target": "Pin_27_21_SCL.055",
+      "description": "Ground Pin. Important to let the voltage surge out",
+      "action": "CONNECT"
+    },
+    "6": {
+      "target": "Pin_27_21_SCL.058",
+      "action": "CONNECT",
+      "description": "Another way to power up the board is with 3.3V pin, which needs the same extra connection with GND. Quite risky if input voltage is bigger than specified"
+    },
+    "7": {
+      "target": "Pin_27_21_SCL.057",
+      "description": "The same goes for 5.5V pin",
+      "action": "CONNECT"
+    },
+    "8": {
+      "target": "LED_ON",
+      "action": "SET",
+      "description": "As a consequence of receiving necessary voltage to function, this LED will be steady on"
+    }
+  }
+}

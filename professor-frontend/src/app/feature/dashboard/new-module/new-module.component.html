@@ -54,11 +54,17 @@
 
             <p></p>
             Others:
-            <button class="btn btn-success border-0 rounded-1" (click)="jsonScript.sendToBackend().subscribe()">
+            <button class="btn btn-success border-0 rounded-1"
+                    (click)="jsonScript.sendToBackend().subscribe();
+                             goToPage('dashboard/home')">
                 Save script</button>
+            <button class="btn btn-success border-0 rounded-1"
+                    (click)="download()">
+                Download script
+            </button>
 
         </div>
-        <p> {{this.jsonScript.getJson()}}</p>
+        <pre>{{ this.jsonScript.getJson() }}</pre>
     </div>
 
 
@@ -66,27 +72,27 @@
     <div class="" style="width: 100%">
         <canvas #canvas id="canvas" style="height: 100%; width: 100%;"></canvas>
 <!--        Inventory beneath 3D editor-->
-        <div class="h-25 text-black container d-flex flex-row panel" style="background-color: bisque">
-            <div class="p-3 w-25 bg-info">
-                Butoane stanga dreapta si selectare categorie (echipamente, fire)
-                <button class="btn">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                <button class="btn">
-                    <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
+<!--        <div class="h-25 text-black container d-flex flex-row panel" style="background-color: bisque">-->
+<!--            <div class="p-3 w-25 bg-info">-->
+<!--                Butoane stanga dreapta si selectare categorie (echipamente, fire)-->
+<!--                <button class="btn">-->
+<!--                    <i class="fa-solid fa-arrow-left"></i>-->
+<!--                </button>-->
+<!--                <button class="btn">-->
+<!--                    <i class="fa-solid fa-arrow-right"></i>-->
+<!--                </button>-->
+<!--            </div>-->
 
-            <div class="p-3 bg-light w-100 d-flex flex-row align-items-start">
-                <button class="btn box cube-red" (click)="addRedBlock()">
-                    <img class="icon" src="assets/objects_and_materials/key/key.png" />
-                </button>
-                <button class="btn box cube-green" (click)="addGreenBlock()">
-                    <img class="icon" src="assets/objects_and_materials/keymatrix/keymatrix.png" />
-                </button>
-            </div>
+<!--            <div class="p-3 bg-light w-100 d-flex flex-row align-items-start">-->
+<!--                <button class="btn box cube-red" (click)="addRedBlock()">-->
+<!--                    <img class="icon" src="assets/objects_and_materials/key/key.png" />-->
+<!--                </button>-->
+<!--                <button class="btn box cube-green" (click)="addGreenBlock()">-->
+<!--                    <img class="icon" src="assets/objects_and_materials/keymatrix/keymatrix.png" />-->
+<!--                </button>-->
+<!--            </div>-->
 
-        </div>
+<!--        </div>-->
     </div>
 
 <!--      Inspector-->

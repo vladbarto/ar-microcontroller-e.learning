@@ -4,9 +4,11 @@ import ro.ps.chefmgmtbackend.dto.wizard.WizardRequestDTO;
 import ro.ps.chefmgmtbackend.dto.wizard.WizardResponseDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface WizardService {
 
-    public List<WizardResponseDTO> getAllWizards();
-    public WizardResponseDTO saveWizardWithPages(WizardRequestDTO wizardRequestDTO);
+    List<WizardResponseDTO> getAllWizards();
+    WizardResponseDTO saveWizardWithPages(WizardRequestDTO wizardRequestDTO);
+    WizardResponseDTO deleteById(UUID wizardId);
 }

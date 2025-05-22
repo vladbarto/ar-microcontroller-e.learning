@@ -24,7 +24,7 @@ public class WizardPageEntity {
     @Column(name = "TARGET", nullable = false)
     private String target;
 
-    @Column(name = "DESCRIPTION", nullable = true)
+    @Column(name = "DESCRIPTION", nullable = true, columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "ACTION", nullable = false)

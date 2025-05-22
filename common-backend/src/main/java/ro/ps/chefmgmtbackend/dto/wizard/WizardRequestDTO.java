@@ -4,7 +4,6 @@ import lombok.*;
 import ro.ps.chefmgmtbackend.dto.wizardPage.WizardPageRequestDTO;
 
 import java.util.Map;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -13,7 +12,6 @@ import java.util.UUID;
 @Builder
 public class WizardRequestDTO {
 
-    private UUID wizardId;
     private String subtitle;
     private String aim;
     private Map<String, WizardPageRequestDTO> pages; // Keys are "1", "2", etc.

@@ -10,13 +10,13 @@ public class LedOnIfInternalRegs : MonoBehaviour
 	public Slider PIO_SODR;
 
     Renderer renderer;
-    Color baseColor = Color.white;
-    //Color color = Color.green;
+    Color originalColor;
 
     // Start is called before the first frame update
     void Start()
     {
-        renderer = GetComponent<Renderer>();    
+        renderer = GetComponent<Renderer>();
+        originalColor = renderer.material.color;
     }
 
     // Update is called once per frame
@@ -29,7 +29,7 @@ public class LedOnIfInternalRegs : MonoBehaviour
         }
         else
         {
-            renderer.material.color = baseColor;
+            renderer.material.color = originalColor;
         }
        
     }

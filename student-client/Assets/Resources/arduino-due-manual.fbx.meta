@@ -3,7 +3,47 @@ guid: 9ef86bbe326ab42d1926dc425f98adfc
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.Btn_red
+    second: {fileID: 2100000, guid: 197cdaf90398f4fe9a6b7da89cd221ee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.Chip
+    second: {fileID: 2100000, guid: 38b8fbd9c556e469abc36f5c0c61a6ed, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.Metalic
+    second: {fileID: 2100000, guid: c1d2c9ab398fc41b7bd4ad572028d46e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.PCB
+    second: {fileID: 2100000, guid: e23e40e862f6b4fa08d5f34a7fb1ee4b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.Pin
+    second: {fileID: 2100000, guid: 727ac021c1a6d43b3b1320739aa8f6a7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.Pin.001
+    second: {fileID: 2100000, guid: 0446286923eda4694900d8caf4d8cd71, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.Pin.002
+    second: {fileID: 2100000, guid: cd12578c7c2b34c1396bbbd737395fd6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.Sticla
+    second: {fileID: 2100000, guid: df0dfe097c6e346d8aaa1c4caf644831, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

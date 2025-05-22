@@ -21,4 +21,8 @@ export class WizardService {
   public getAllMain(): Observable<WizardModel[]> {
     return this.http.get<WizardModel[]>(`${this.baseUrl}/${this.endpoints.allMain}`);
   }
+
+  public deleteById(deviceId: string): Observable<WizardModel> {
+    return this.http.delete<WizardModel>(`${this.baseUrl}/${this.endpoints.delete}/${deviceId}`);
+  }
 }

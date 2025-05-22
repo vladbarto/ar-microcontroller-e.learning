@@ -9,8 +9,8 @@ import ro.ps.chefmgmtbackend.model.UserEntity;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-14T13:09:18+0300",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.1 (Homebrew)"
+    date = "2025-05-21T23:54:44+0300",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.1 (Oracle Corporation)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {

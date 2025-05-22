@@ -50,8 +50,12 @@ export class JsonScriptService {
     this.json['pages'][this.stepIdx-1]['action'] = action.toUpperCase();
   }
 
+  public getSubtitle(): string {
+    return this.json['subtitle'];
+  }
+
   public getJson(): any {
-    return JSON.stringify(this.json);
+    return JSON.stringify(this.json, null, 2);
   }
 
 //   send to backend

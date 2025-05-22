@@ -26,11 +26,15 @@ export class GraphicsEngineService {
     private gui = new GUI();
 
     private readonly objects: THREE.Object3D[] = [];
-    private readonly light = new THREE.DirectionalLight(0xffffff, 1);
+    private readonly light = new THREE.DirectionalLight(0xffffff, 0.8);
+    private readonly light2 = new THREE.PointLight(0xffffff, .6);
+
+    private readonly fillLight = new THREE.AmbientLight(0xffffff, 3);
     private readonly registers = {
         PIO_PER: 0,
         PIO_OER: 0,
-        PIO_SODR: 0
+        PIO_SODR: 0,
+        PIO_CODR: 0
     };
 
     private sceneHierarchy: THREE.Object3D[] = []; // top-level objects like Arduino, others
@@ -53,21 +57,30 @@ export class GraphicsEngineService {
 
     private setupScene(canvas: HTMLCanvasElement): void {
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x000000);
+        this.scene.background = new THREE.Color(0x073f72);
 
         this.camera = new THREE.PerspectiveCamera(1, canvas.clientWidth / canvas.clientHeight, 1, 1000);
         this.camera.position.z = 400;
 
         this.renderer = new THREE.WebGLRenderer({ canvas });
         this.renderer.setPixelRatio(devicePixelRatio);
-        this.renderer.setSize(canvas.clientWidth, canvas.clientHeight - 250);
+        this.renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
         this.controls = new OrbitControls(this.camera, canvas);
         this.controls.enableDamping = true;
         this.controls.dampingFactor = 0.05;
 
-        this.light.position.set(5, 10, 7.5);
+        this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        this.renderer.toneMappingExposure = 1.0;
+
+        this.light.position.set(0, 500, 50);
+        this.light2.position.set(-5, 0, 0);
+
         this.scene.add(this.light);
+        this.scene.add(this.light2);
+        this.scene.add(this.fillLight);
     }
 
     private setupPostProcessing(): void {
@@ -85,6 +98,7 @@ export class GraphicsEngineService {
         this.outlinePass.visibleEdgeColor.set(0xffff00);
 
         this.composer.addPass(this.outlinePass);
+
     }
 
     public async loadModel(objPath: string, mtlPath?: string, texturePath?: string): Promise<THREE.Object3D> {
@@ -182,9 +196,8 @@ export class GraphicsEngineService {
 
     private async loadArduino() {
         this.arduino = await this.loadModel(
-            'assets/objects_and_materials/board/arduino-due.obj',
-            'assets/objects_and_materials/board/arduino-due.mtl',
-            'assets/objects_and_materials/board/arduino-due.jpg'
+            'assets/objects_and_materials/board/arduino-due-manual.obj',
+            'assets/objects_and_materials/board/arduino-due-manual.mtl'
         );
         this.arduino.name = "Arduino Due (Cortex M3)"
         this.arduino.position.set(0, 0, 0);

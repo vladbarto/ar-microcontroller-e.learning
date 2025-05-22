@@ -14,8 +14,7 @@ public class WizardExecutionManager : MonoBehaviour
     // Singleton pattern for easy access
     public static WizardExecutionManager Instance { get; private set; }
 
-    private string apiBaseUrl = getBackendBaseUrl(); //"http://192.168.0.102:2003/api";
-    private string executeStepEndpoint = "/wizard/execute"; // todo: n-am nimic de executat in backend, asta dispare
+    private string apiBaseUrl = getBackendBaseUrl();
     private string authTokenKey = AUTH_TOKEN; //"auth_token"; // PlayerPrefs key for the token
 
     [Header("UI References Preview")]
@@ -162,6 +161,7 @@ public class WizardExecutionManager : MonoBehaviour
 
         //wizardTitleText.Enable(false);
         //wizardAimText.IsActive(false);
+        currentWizard.pages.Sort((a, b) => a.step.CompareTo(b.step)); // Ensure steps are in order
 
         StartCoroutine(ExecuteWizardSteps());
     }

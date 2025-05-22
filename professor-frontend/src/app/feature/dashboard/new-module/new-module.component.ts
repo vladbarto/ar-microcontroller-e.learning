@@ -11,6 +11,7 @@ import { GraphicsEngineService } from "../../../core/service/graphics-engine/gra
 import { environment } from "../../../../environments/environment.development";
 import {Mesh} from "three";
 import * as THREE from 'three';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-module',
@@ -29,7 +30,8 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
 
   constructor(
       protected jsonScript: JsonScriptService,
-      private graphicsEngine: GraphicsEngineService
+      private graphicsEngine: GraphicsEngineService,
+      private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -99,6 +101,27 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
         "assets/objects_and_materials/keymatrix/keymatrix.mtl",
         "/Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/professor-frontend/src/assets/jag-texture.png"
     );
+  }
+
+  protected goToPage(pageName:string){
+    this.router.navigate([`${pageName}`]);
+  }
+
+  protected download(): void {
+    console.log('"download" script');
+
+    const content = this.jsonScript.getJson();
+    const filename = `${this.jsonScript.getSubtitle()}.txt`;
+
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+
+    URL.revokeObjectURL(url);
   }
 
 }

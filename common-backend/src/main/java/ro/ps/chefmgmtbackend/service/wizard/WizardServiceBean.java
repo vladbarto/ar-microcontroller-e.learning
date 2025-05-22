@@ -14,6 +14,7 @@ import ro.ps.chefmgmtbackend.repository.WizardRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -21,7 +22,6 @@ public class WizardServiceBean implements WizardService {
 
     private final WizardRepository wizardRepository;
     private final WizardMapper wizardMapper;
-    private final ObjectMapper objectMapper;
     private final String applicationName;
 
     @Override
@@ -63,5 +63,14 @@ public class WizardServiceBean implements WizardService {
         WizardEntity wizardAdded = wizardRepository.save(wizardToBeAdded);
 
         return wizardMapper.entityToResponseDTO(wizardAdded);
+    }
+
+    @Override
+    @Transactional
+    public WizardResponseDTO deleteById(UUID wizardId) {
+        log.info("Deleting wizard with id: {}", wizardId);
+
+        wizardRepository.deleteById(wizardId);
+        return null;
     }
 }

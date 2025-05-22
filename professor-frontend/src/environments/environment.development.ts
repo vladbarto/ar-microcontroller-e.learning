@@ -5,10 +5,12 @@ export const environment = {
     },
     WIZARD: {
         base: "wizard/v1",
-        allMain: "all-main"
+        allMain: "all-main",
+        delete: "delete"
     },
     //----------------------------------------
     // Action set
-    ACTION: ['Clear', 'Set', 'Open', 'Connect'],
-    wizardOpenState: true
+    ACTION: ['Clear', 'Set', 'Open', 'Connect', 'Observe', 'START'],
+    wizardOpenState: true,
+    clearCookies: false
 };
