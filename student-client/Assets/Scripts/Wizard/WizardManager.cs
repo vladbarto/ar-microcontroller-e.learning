@@ -10,10 +10,10 @@ using static LicentaUtils.Environment;
 
 public class WizardManager : MonoBehaviour
 {
-    
-    private string apiBaseUrl = getBackendBaseUrl();
+
+    private string apiBaseUrl;
     private string getWizardsEndpoint = string.Format("{0}{1}", WIZARD_CONTROLLER, WIZARD_GET_ALL_ENDPOINT); //"/wizard/v1/all-main";
-    private string authTokenKey = AUTH_TOKEN; //"auth_token"; // PlayerPrefs key for the token
+    private string authTokenKey = AUTH_TOKEN;
 
     [Header("UI References")]
     [SerializeField] private Transform cardContainer;
@@ -46,6 +46,7 @@ public class WizardManager : MonoBehaviour
 
     private void Start()
     {
+        this.apiBaseUrl = GetBackendBaseUrl();
         LoadWizards();
     }
 

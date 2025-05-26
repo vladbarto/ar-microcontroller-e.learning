@@ -2,6 +2,7 @@
 <!--    Title-->
   <div class="container pt-5 pb-5">
     <h3>Create new learning module</h3>
+    <button class="btn-info btn" (click)="printAngle()">Print angle btw camera and light</button>
   </div>
 
     <div *ngIf="wizardFormIsOpened" class="overlay-backdrop d-flex" (click)="closeWizardForm($event)">
@@ -18,7 +19,7 @@
     <!--    First Row-->
   <div class="d-flex flex-row">
 <!--      Generated Script Editor-->
-    <div class="container pt-3" style="background-color: #292829; width: 27%">
+    <div class="container pt-3" style="background-color: #292829; width: 27%; max-width: 400px; min-width: 300px;">
         <p class="fw-bold text-danger">Generated Script Viewer</p>
 
 <!--        Settings area-->
@@ -54,7 +55,7 @@
 
             <p></p>
             Others:
-            <button class="btn btn-success border-0 rounded-1"
+            <button class="btn btn-success border-0 rounded-1 mb-1"
                     (click)="jsonScript.sendToBackend().subscribe();
                              goToPage('dashboard/home')">
                 Save script</button>
@@ -64,6 +65,18 @@
             </button>
 
         </div>
+
+<!--        &lt;!&ndash; Blockly Editor &ndash;&gt;-->
+<!--        <div class="blockly-wrapper pt-3">-->
+<!--            <ngx-blockly-->
+<!--                #blockly-->
+<!--                [config]="blocklyConfig"-->
+<!--                [readOnly]="false"-->
+<!--                (workspaceChange)="onWorkspaceChange()">-->
+<!--            </ngx-blockly>-->
+<!--        </div>-->
+
+
         <pre>{{ this.jsonScript.getJson() }}</pre>
     </div>
 

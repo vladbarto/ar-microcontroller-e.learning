@@ -12,6 +12,10 @@ import { environment } from "../../../../environments/environment.development";
 import {Mesh} from "three";
 import * as THREE from 'three';
 import {Router} from "@angular/router";
+import * as Blockly from 'blockly';
+import {NgxBlocklyComponent} from "ngx-blockly";
+
+
 
 @Component({
   selector: 'app-new-module',
@@ -22,6 +26,27 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
 
   protected wizardFormIsOpened: boolean = false;
   protected actionList: string[] = environment.ACTION;
+  @ViewChild('blockly') blocklyComponent!: NgxBlocklyComponent;
+
+  blocklyConfig = {
+    toolbox: {
+      kind: 'flyoutToolbox',
+      contents: [
+        {
+          kind: 'block',
+          type: 'step_block'
+        }
+      ]
+    },
+    scrollbars: true,
+    trashcan: true,
+    collapse: false,
+    comments: false,
+    disable: false,
+  };
+
+
+  startBlocksXml = ''; // optional: can preload from jsonScript if needed
 
   @ViewChild('canvas') private canvasRef!: ElementRef<HTMLCanvasElement>;
   @ViewChild('matMenuTrigger', { static: true }) matMenuTrigger!: MatMenuTrigger;
@@ -32,7 +57,19 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
       protected jsonScript: JsonScriptService,
       private graphicsEngine: GraphicsEngineService,
       private router: Router
-  ) {}
+  ) {
+
+    Blockly.Blocks['step_block'] = {
+      init: function () {
+        this.appendDummyInput().appendField(new Blockly.FieldTextInput("step"), "TXT");
+        this.setColour(230);
+        this.setOutput(false);
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+      }
+    };
+
+  }
 
   ngOnInit(): void {
     this.openWizardForm();
@@ -41,6 +78,9 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     const canvas = this.canvasRef.nativeElement;
     this.graphicsEngine.init(canvas);
+
+    const workspace = this.blocklyComponent.workspace;
+    this.loadStepsToWorkspace(workspace);
   }
 
   get hierarchy(): Mesh[] {
@@ -123,5 +163,36 @@ export class NewModuleComponent implements OnInit, AfterViewInit {
 
     URL.revokeObjectURL(url);
   }
+
+  protected printAngle() {
+    this.graphicsEngine.printAngle();
+  }
+
+  onWorkspaceChange() {
+    const workspace = this.blocklyComponent.workspace;
+    const blocks = workspace.getTopBlocks(true);
+    const steps = blocks.map((block, idx) => ({
+      id: idx + 1,
+      text: block.getFieldValue('TXT')
+    }));
+    this.jsonScript.replaceSteps(steps);
+  }
+
+
+  loadStepsToWorkspace(workspace: Blockly.WorkspaceSvg) {
+    const json = this.jsonScript.getJson();
+    const pages = json.pages;
+
+    Object.entries(pages)
+        .forEach(([_, step], idx) => {
+          const stepData = step as { description?: string };
+          const block = workspace.newBlock('step_block');
+          block.setFieldValue(stepData.description || 'step', 'TXT');
+          block.initSvg();
+          block.render();
+          block.moveBy(10, 40 * idx);
+        });
+  }
+
 
 }

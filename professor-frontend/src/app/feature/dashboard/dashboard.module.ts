@@ -9,6 +9,7 @@ import { NewModuleComponent } from './new-module/new-module.component';
 import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
 import { WizardFormComponent } from './new-module/wizard-form/wizard-form.component';
 import { InspectorNodeComponent } from './new-module/inspector-node/inspector-node.component';
+import {NgxBlocklyModule} from "ngx-blockly";
 
 
 
@@ -27,7 +28,8 @@ import { InspectorNodeComponent } from './new-module/inspector-node/inspector-no
         FormsModule,
         MatMenuTrigger,
         MatMenu,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NgxBlocklyModule
     ]
 })
 export class DashboardModule { }

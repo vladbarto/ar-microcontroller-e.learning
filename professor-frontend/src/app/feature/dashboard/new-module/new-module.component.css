@@ -86,3 +86,18 @@
   object-fit: contain;
 }
 
+.blockly-wrapper {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  background-color: white;
+
+  /* optional: scroll if needed */
+  overflow: hidden;
+}
+
+.blockly-wrapper .blocklyDiv {
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+}

@@ -8,7 +8,7 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import GUI from 'three/examples/jsm/libs/lil-gui.module.min';
 import { JsonScriptService } from '../json-script/json-script.service';
-import { Mesh } from 'three';
+import {Mesh, Vector3} from 'three';
 import {DragControls} from "three/examples/jsm/controls/DragControls";
 
 @Injectable({ providedIn: 'root' })
@@ -26,7 +26,7 @@ export class GraphicsEngineService {
     private gui = new GUI();
 
     private readonly objects: THREE.Object3D[] = [];
-    private readonly light = new THREE.DirectionalLight(0xffffff, 0.8);
+    private readonly light = new THREE.DirectionalLight(0xffffff, 1.7);
     private readonly light2 = new THREE.PointLight(0xffffff, .6);
 
     private readonly fillLight = new THREE.AmbientLight(0xffffff, 3);
@@ -61,6 +61,7 @@ export class GraphicsEngineService {
 
         this.camera = new THREE.PerspectiveCamera(1, canvas.clientWidth / canvas.clientHeight, 1, 1000);
         this.camera.position.z = 400;
+        this.camera.lookAt(0, 0, 0);
 
         this.renderer = new THREE.WebGLRenderer({ canvas });
         this.renderer.setPixelRatio(devicePixelRatio);
@@ -75,12 +76,16 @@ export class GraphicsEngineService {
         this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
         this.renderer.toneMappingExposure = 1.0;
 
-        this.light.position.set(0, 500, 50);
+        this.light.position.set(0, 500, 0);
+        this.light.target.position.set(0, 0, 0);
         this.light2.position.set(-5, 0, 0);
 
         this.scene.add(this.light);
-        this.scene.add(this.light2);
+        this.scene.add(this.light.target);
+        this.light.lookAt(this.light.target.position); // <-- ADD THIS
+        //this.scene.add(this.light2);
         this.scene.add(this.fillLight);
+
     }
 
     private setupPostProcessing(): void {
@@ -139,8 +144,10 @@ export class GraphicsEngineService {
     private onMouseDown(event: MouseEvent): void {
         this.gui.show();
 
-        this.mouse.x = (event.clientX / this.renderer.domElement.clientWidth) * 2 - 1;
-        this.mouse.y = -(event.clientY / this.renderer.domElement.clientHeight) * 2 + 1;
+        const rect = this.renderer.domElement.getBoundingClientRect();
+        this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
 
         this.controls.update();
         this.camera.updateMatrixWorld();
@@ -171,6 +178,7 @@ export class GraphicsEngineService {
         requestAnimationFrame(() => this.animate());
         this.controls.update();
         this.composer.render();
+        this.turnOffUpLight(this.angleBetweenCameraAndLight());
     }
 
     private addAxesHelper(): void {
@@ -312,4 +320,44 @@ export class GraphicsEngineService {
         }
     }
 
+    cameraVector: Vector3 = new Vector3();
+    lightVector: Vector3 = new Vector3();
+
+    public printAngle() {
+
+        this.getVector(this.camera, this.cameraVector);
+        this.getVector(this.light, this.lightVector);
+
+        console.log('Camera:', this.cameraVector);
+        console.log('Light:', this.lightVector);
+
+        console.warn(this.radiansToDegrees(this.cameraVector.angleTo(this.lightVector)));
+    }
+
+    private getVector(source: any, target: Vector3) {
+        source.getWorldDirection(target);
+    }
+
+    private radiansToDegrees(angleRad) {
+        return (angleRad * (180 / Math.PI)).toFixed(2);
+    }
+
+    private angleBetweenCameraAndLight() {
+        this.getVector(this.camera, this.cameraVector);
+        this.getVector(this.light, this.lightVector);
+
+        return this.radiansToDegrees(this.cameraVector.angleTo(this.lightVector));
+    }
+
+    private turnOffUpLight(angle) {
+        if(angle >= 150.0 && angle <= 160.0)
+            this.light.intensity = 1;
+        else if(angle > 160.0 && angle <= 170.0)
+            this.light.intensity = 0.2
+        else if(angle > 170.0 && angle <= 180.0)
+            this.light.intensity = 0.05
+        else
+            this.light.intensity = 2;
+
+    }
 }

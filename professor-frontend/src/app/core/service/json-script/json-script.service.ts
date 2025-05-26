@@ -58,6 +58,20 @@ export class JsonScriptService {
     return JSON.stringify(this.json, null, 2);
   }
 
+  public replaceSteps(newSteps: { id: number, text: string }[]) {
+    const updatedPages: Record<string, any> = {};
+
+    newSteps.forEach(step => {
+      const existing = this.json['pages'][step.id.toString()] || {};
+      updatedPages[step.id.toString()] = {
+        ...existing,
+        description: step.text
+      };
+    });
+
+    this.json['pages'] = updatedPages;
+  }
+
 //   send to backend
 
   public sendToBackend(): Observable<any> {

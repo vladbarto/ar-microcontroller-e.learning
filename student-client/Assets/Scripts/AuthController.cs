@@ -16,8 +16,10 @@ public class LoginManager : MonoBehaviour
     public TextMeshProUGUI errorMessage;
     public Button loginButton;
     public Toggle showPasswordToggle;
+    public Button registerButton;
 
-    private string loginUrl = string.Format("{0}{1}{2}", getBackendBaseUrl(), AUTH_CONTROLLER, AUTH_LOGIN_ENDPOINT);
+    private string loginUrl => $"{GetBackendBaseUrl()}{AUTH_CONTROLLER}{AUTH_LOGIN_ENDPOINT}";
+    private string registerUrl => $"{GetFrontendBaseUrl()}{FRONTEND_AUTH_PARENT}{FRONTEND_AUTH_REGISTER}";
 
     private string cookieHeader = "Set-Cookie"; // HTTP Header where cookies are received
 
@@ -113,4 +115,8 @@ public class LoginManager : MonoBehaviour
         passwordField.ForceLabelUpdate();
     }
 
+    public void Register()
+    {
+        Application.OpenURL(registerUrl);
+    }
 }

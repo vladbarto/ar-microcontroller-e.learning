@@ -2,6 +2,7 @@
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/service/wizard/WizardServiceBean.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/service/wizard/WizardService.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/exception/ExceptionBody.java
+/Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/dto/user/UserRequestDTO.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/dto/user/UserResponseDTO.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/controller/JsonController.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/controller/UserController.java

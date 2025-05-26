@@ -6,7 +6,7 @@ be_path = "/Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e
 
 
 def start_frontend():
-    subprocess.run(["ng", "serve"], cwd=fe_path)
+    subprocess.run(["ng", "serve", "--host", "0.0.0.0"], cwd=fe_path)
 
 
 def start_backend():

@@ -1,0 +1,8 @@
+export declare class NgxBlocklyGeneratorConfig {
+    dart?: boolean;
+    javascript?: boolean;
+    lua?: boolean;
+    php?: boolean;
+    python?: boolean;
+    xml?: boolean;
+}

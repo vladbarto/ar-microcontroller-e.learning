@@ -1,9 +1,9 @@
 {
-  "name": "chef-mgmt-frontend",
+  "name": "embedded-systems-frontend",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -22,9 +22,11 @@
     "@angular/router": "^17.3.0",
     "@fortawesome/fontawesome-free": "^6.5.2",
     "@types/three": "^0.171.0",
+    "blockly": "^9.3.3",
     "bootstrap": "^5.3.3",
     "dat.gui": "^0.7.9",
     "fs": "^0.0.1-security",
+    "ngx-blockly": "^14.0.2",
     "ngx-cookie-service": "^17.1.0",
     "rxjs": "~7.8.0",
     "three": "^0.172.0",

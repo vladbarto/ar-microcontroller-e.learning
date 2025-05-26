@@ -6,10 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ro.ps.chefmgmtbackend.dto.user.UserRequestDTO;
 import ro.ps.chefmgmtbackend.dto.user.UserResponseDTO;
 import ro.ps.chefmgmtbackend.service.user.UserService;
 
@@ -30,6 +28,16 @@ public class UserController {
         return new ResponseEntity<>(
                 userService.findByEmail(email),
                 HttpStatus.OK
+        );
+    }
+
+    @PostMapping("/registration")
+    public ResponseEntity<UserResponseDTO> register(@RequestBody UserRequestDTO userRequestDTO) {
+        log.info("Registering new user");
+
+        return new ResponseEntity<>(
+                userService.create(userRequestDTO),
+                HttpStatus.CREATED
         );
     }
 }

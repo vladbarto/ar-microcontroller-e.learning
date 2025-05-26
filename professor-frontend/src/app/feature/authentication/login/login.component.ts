@@ -75,4 +75,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl('/dashboard/home');
     });
   }
+
+  protected goToPage(route): void {
+    this.router.navigateByUrl(route)
+  }
 }

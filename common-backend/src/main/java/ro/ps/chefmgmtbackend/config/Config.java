@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ro.ps.chefmgmtbackend.mapper.UserMapper;
 import ro.ps.chefmgmtbackend.mapper.WizardMapper;
 import ro.ps.chefmgmtbackend.mapper.WizardPageMapper;
@@ -23,9 +24,10 @@ public class Config {
     @Bean
     public UserService userServiceBean(
             UserRepository userRepository,
-            UserMapper userMapper
+            UserMapper userMapper,
+            PasswordEncoder passwordEncoder
     ) {
-        return new UserServiceBean(userRepository, userMapper);
+        return new UserServiceBean(userRepository, userMapper, passwordEncoder);
     }
 
     @Bean

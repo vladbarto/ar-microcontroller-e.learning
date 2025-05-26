@@ -14,7 +14,7 @@ public class WizardExecutionManager : MonoBehaviour
     // Singleton pattern for easy access
     public static WizardExecutionManager Instance { get; private set; }
 
-    private string apiBaseUrl = getBackendBaseUrl();
+    private string apiBaseUrl;
     private string authTokenKey = AUTH_TOKEN; //"auth_token"; // PlayerPrefs key for the token
 
     [Header("UI References Preview")]
@@ -47,6 +47,8 @@ public class WizardExecutionManager : MonoBehaviour
 
     private void Awake()
     {
+        this.apiBaseUrl = GetBackendBaseUrl();
+
         // Singleton setup
         if (Instance == null)
         {
