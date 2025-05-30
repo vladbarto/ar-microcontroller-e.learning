@@ -48,4 +48,8 @@ export class HomeComponent implements OnInit{
           next: response => this.learningModules = response, error: err => console.error(err),
         });
   }
+
+  openEditor(id: string) {
+    this.router.navigate(['dashboard/editor'], {queryParams: {id} });
+  }
 }

@@ -19,7 +19,7 @@ public class WizardEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID wizardId;
 
-    @OneToMany(mappedBy = "wizard", cascade = CascadeType.ALL, fetch = FetchType.EAGER)//, orphanRemoval = true)
+    @OneToMany(mappedBy = "wizard", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<WizardPageEntity> steps;
 
     @Column(name = "SUBTITLE", nullable = false, columnDefinition = "TEXT")

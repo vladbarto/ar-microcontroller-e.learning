@@ -11,8 +11,8 @@ import ro.ps.chefmgmtbackend.model.WizardEntity;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-26T10:24:22+0300",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.1 (Homebrew)"
+    date = "2025-05-28T18:52:08+0300",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.1 (Oracle Corporation)"
 )
 @Component
 public class WizardMapperImpl implements WizardMapper {

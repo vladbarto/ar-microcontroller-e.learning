@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ro.ps.chefmgmtbackend.controller.util.WizardUtil;
 import ro.ps.chefmgmtbackend.dto.wizard.WizardRequestDTO;
@@ -11,6 +12,8 @@ import ro.ps.chefmgmtbackend.dto.wizard.WizardResponseDTO;
 
 import ro.ps.chefmgmtbackend.service.wizard.WizardService;
 import ro.ps.chefmgmtbackend.service.wizardPage.WizardPageService;
+
+import java.util.UUID;
 
 /**
  * related to Wizards
@@ -23,8 +26,9 @@ import ro.ps.chefmgmtbackend.service.wizardPage.WizardPageService;
 public class JsonController {
 
     private final WizardService wizardService;
-    private final WizardPageService wizardPageService;
+
     @PostMapping("/save")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<WizardResponseDTO> saveJson(@RequestBody String requestBody) {
         log.info("Received over network: {}", requestBody);
 
@@ -42,5 +46,22 @@ public class JsonController {
         WizardResponseDTO savedWizard = wizardService.saveWizardWithPages(wizardRequestDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedWizard);
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<WizardResponseDTO> updateJson(@PathVariable UUID id, @RequestBody String requestBody) {
+        log.info("Received over network: {}, {}", id, requestBody);
+
+        WizardRequestDTO wizardRequestDTO = WizardUtil.requestBodyStringToRequestDTO(requestBody);
+
+        if (wizardRequestDTO == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        // Service handles establishing relationships
+        // and saves (puts) everything at once using JPA cascades
+        WizardResponseDTO updatedWizard = wizardService.updateWizardWithPages(id, wizardRequestDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedWizard);
     }
 }

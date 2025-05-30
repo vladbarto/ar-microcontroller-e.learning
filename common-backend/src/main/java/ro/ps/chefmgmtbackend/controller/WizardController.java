@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ro.ps.chefmgmtbackend.dto.wizard.WizardRequestDTO;
 import ro.ps.chefmgmtbackend.dto.wizard.WizardResponseDTO;
 import ro.ps.chefmgmtbackend.service.wizard.WizardService;
 
@@ -25,6 +26,26 @@ public class WizardController {
     public ResponseEntity<List<WizardResponseDTO>> getAllWizards() {
         return new ResponseEntity<>(
                 wizardService.getAllWizards(),
+                HttpStatus.OK
+        );
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/{id}")
+    public ResponseEntity<WizardResponseDTO> getWizardById(@PathVariable("id") UUID id) {
+        return new ResponseEntity<>(
+                wizardService.getById(id),
+                HttpStatus.OK
+        );
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{id}")
+    public ResponseEntity<WizardResponseDTO> updateWizardById(@PathVariable("id") UUID id, @RequestBody WizardRequestDTO request) {
+        log.info("Updating wizard with id {}", id);
+
+        return new ResponseEntity<>(
+                wizardService.updateWizardWithPages(id, request),
                 HttpStatus.OK
         );
     }

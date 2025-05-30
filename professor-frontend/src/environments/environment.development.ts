@@ -6,6 +6,7 @@ export const environment = {
     WIZARD: {
         base: "wizard/v1",
         allMain: "all-main",
+        getOneById: "one",
         delete: "delete"
     },
     //----------------------------------------

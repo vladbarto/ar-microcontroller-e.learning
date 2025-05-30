@@ -1,9 +1,8 @@
 <div class="whole-page">
 <!--    Title-->
-  <div class="container pt-5 pb-5">
-    <h3>Create new learning module</h3>
-    <button class="btn-info btn" (click)="printAngle()">Print angle btw camera and light</button>
-  </div>
+<!--  <div class="container pt-5 pb-5">-->
+<!--    <h3>Create new learning module</h3>-->
+<!--  </div>-->
 
     <div *ngIf="wizardFormIsOpened" class="overlay-backdrop d-flex" (click)="closeWizardForm($event)">
         <div class="overlay-content" (click)="$event.stopPropagation()">
@@ -18,66 +17,91 @@
 
     <!--    First Row-->
   <div class="d-flex flex-row">
-<!--      Generated Script Editor-->
-    <div class="container pt-3" style="background-color: #292829; width: 27%; max-width: 400px; min-width: 300px;">
-        <p class="fw-bold text-danger">Generated Script Viewer</p>
+<!--      Generate Steps Editor-->
+    <div class="container pt-3" style="background-color: #292829; width: 27%; max-width: 450px; min-width: 400px;">
+        <p class="fw-bold text-danger">Generate Steps Editor</p>
 
-<!--        Settings area-->
-        <div class="d-flex flex-column p-2" style="background-color: rgba(146,146,155,50%)">
-<!--            Add:
-                    step
-                    description and input
-                    action and selection box-->
-            <span>Add...</span>
-
-<!--            Step-->
-            <button class="btn myButton" (click)="jsonScript.addStep(); jsonScript.increaseStep()">
-                step</button>
-
-<!--            Description-->
-            <div class="d-flex">
-
-                <input #descInput type="text" placeholder="Enter description" class="form-control me-3"/>
-                <button class="btn myButton" (click)="jsonScript.addDescriptionToStep(descInput.value);">
-                    description</button>
-            </div>
-
-<!--            Action-->
-            <button class="btn dropdown-toggle myButton" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                action
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
-                <li *ngFor="let action of actionList" class="dropdown-item" (click)="jsonScript.addActionToStep(action)">
-                    {{ action }}
-                </li>
-
-            </div>
-
-            <p></p>
-            Others:
-            <button class="btn btn-success border-0 rounded-1 mb-1"
-                    (click)="jsonScript.sendToBackend().subscribe();
-                             goToPage('dashboard/home')">
-                Save script</button>
-            <button class="btn btn-success border-0 rounded-1"
-                    (click)="download()">
-                Download script
+<!--        Script creator switch (Manual/Blockly)-->
+        <div class="d-flex justify-content-start align-items-center px-3 pt-3 mb-3">
+            <button class="btn btn-sm me-2"
+                    [class.btn-primary]="editingMode === 'blockly'"
+                    [class.btn-outline-primary]="editingMode !== 'blockly'"
+                    (click)="switchToBlocklyMode()">
+                Blockly Editor
             </button>
 
+            <button class="btn btn-sm"
+                    [class.btn-primary]="editingMode === 'manual'"
+                    [class.btn-outline-primary]="editingMode !== 'manual'"
+                    (click)="switchToManualMode()">
+                Final Viewer
+            </button>
         </div>
 
-<!--        &lt;!&ndash; Blockly Editor &ndash;&gt;-->
-<!--        <div class="blockly-wrapper pt-3">-->
-<!--            <ngx-blockly-->
-<!--                #blockly-->
-<!--                [config]="blocklyConfig"-->
-<!--                [readOnly]="false"-->
-<!--                (workspaceChange)="onWorkspaceChange()">-->
-<!--            </ngx-blockly>-->
-<!--        </div>-->
+        <div *ngIf="editingMode=='manual'">
+            <!--        Settings area-->
+            <div class="d-flex flex-column p-2" style="background-color: rgba(146,146,155,50%)">
+                <!--            Add:
+                                    step
+                                    description and input
+                                    action and selection box-->
+<!--                <span>Add...</span>-->
+
+<!--                &lt;!&ndash;            Step&ndash;&gt;-->
+<!--                <button class="btn myButton" (click)="jsonScript.addStep(); jsonScript.increaseStep()">-->
+<!--                    step</button>-->
+
+<!--                &lt;!&ndash;            Description&ndash;&gt;-->
+<!--                <div class="d-flex">-->
+
+<!--                    <input #descInput type="text" placeholder="Enter description" class="form-control me-3"/>-->
+<!--                    <button class="btn myButton" (click)="jsonScript.addDescriptionToStep(descInput.value);">-->
+<!--                        description</button>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash;            Action&ndash;&gt;-->
+<!--                <button class="btn dropdown-toggle myButton" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                    action-->
+<!--                </button>-->
+<!--                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >-->
+<!--                    <li *ngFor="let action of actionList" class="dropdown-item" (click)="jsonScript.addActionToStep(action)">-->
+<!--                        {{ action }}-->
+<!--                    </li>-->
+<!--                </div>-->
+
+<!--                <p></p>-->
+                Toolbox:
+                <button *ngIf="editingId == null" class="btn btn-success border-0 rounded-1 mb-1"
+                        (click)="sendToBackend()">
+                    Save script</button>
+                <button *ngIf="editingId != null" class="btn btn-success border-0 rounded-1 mb-1"
+                        (click)="sendToBackendAsUpdate()">
+                    Update script</button>
+                @if (successMessage) {
+                    <div class="alert alert-success" role="alert">
+                        {{ successMessage }}
+                    </div>
+                }
+                <button class="btn btn-success border-0 rounded-1"
+                        (click)="download()">
+                    Download script
+                </button>
+
+            </div>
+
+            <pre>{{ this.jsonScript.getJson() }}</pre>
+        </div>
 
 
-        <pre>{{ this.jsonScript.getJson() }}</pre>
+        <!-- Blockly Editor -->
+        <div *ngIf="editingMode === 'blockly'" class="blockly-wrapper pt-3">
+            <ngx-blockly
+                #blockly
+                [config]="blocklyConfig"
+                [readOnly]="false"
+                (workspaceChange)="onWorkspaceChange()">
+            </ngx-blockly>
+        </div>
     </div>
 
 
@@ -133,11 +157,10 @@
       <mat-menu #rightMenu="matMenu">
           <div class="d-flex flex-column p-2">
               <p class="m-0" style="color:gray">Component:</p>
-              <button class="btn myButton" mat-menu-item (click)="jsonScript.addTargetToStep(this.selectedMesh.name)">
+              <button class="btn myButton" mat-menu-item (click)="addTargetToCurrentStep()">
                   Add to current step</button>
-              <button class="btn myButton" mat-menu-item>Open</button>
-              <button class="btn myButton" mat-menu-item>Option 3</button>
-              <button class="btn myButton" mat-menu-item>Option 4</button>
+              <button class="btn myButton" mat-menu-item (click)="addTargetToInventory()">
+                  Add target to blockly editor</button>
           </div>
       </mat-menu>
 

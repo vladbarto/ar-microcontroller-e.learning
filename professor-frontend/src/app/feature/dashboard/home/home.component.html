@@ -10,10 +10,6 @@
           <span> User email: </span>
           <span class="fw-bold"> {{loggedUser.email}} </span>
         </p>
-        <p>
-          <span> ID: </span>
-          <span class="fw-bold">{{loggedUser.id}}</span>
-        </p>
 
         <button class="btn btn-danger" (click)="logOut()">
           Logout
@@ -40,19 +36,23 @@
 
         <div class="p-2">
           @for (learningModule of learningModules; track learningModule.wizardId) {
-            <app-material-card [learningModule]="learningModule" [editMode]="editMode"></app-material-card>
+            <app-material-card
+                    [learningModule]="learningModule"
+                    [editMode]="editMode"
+                    (click)="openEditor(learningModule.wizardId)">
+            </app-material-card>
           } @empty {
             <p>No material listed yet</p>
           }
         </div>
       </div>
 
-      <!--    Forum container::Right  -->
-      <div class="container mt-5 rounded-4 user-info-container p-3 w-50">
-        <h4>Forum</h4>
-        <h5>Hot topics</h5>
-        <p>It's WIP</p>
-      </div>
+<!--      &lt;!&ndash;    Forum container::Right  &ndash;&gt;-->
+<!--      <div class="container mt-5 rounded-4 user-info-container p-3 w-50">-->
+<!--        <h4>Forum</h4>-->
+<!--        <h5>Hot topics</h5>-->
+<!--        <p>It's WIP</p>-->
+<!--      </div>-->
     </div>
 
   </div>

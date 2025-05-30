@@ -21,10 +21,10 @@ public class WizardPageEntity {
     @Column(name = "STEP", nullable = false)
     private int step;
 
-    @Column(name = "TARGET", nullable = false)
+    @Column(name = "TARGET")
     private String target;
 
-    @Column(name = "DESCRIPTION", nullable = true, columnDefinition = "TEXT")
+    @Column(name = "DESCRIPTION", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "ACTION", nullable = false)

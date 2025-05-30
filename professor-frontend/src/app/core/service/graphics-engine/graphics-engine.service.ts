@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import * as THREE from 'three';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
@@ -7,12 +7,13 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import GUI from 'three/examples/jsm/libs/lil-gui.module.min';
-import { JsonScriptService } from '../json-script/json-script.service';
 import {Mesh, Vector3} from 'three';
 import {DragControls} from "three/examples/jsm/controls/DragControls";
+import * as Blockly from 'blockly';
+
 
 @Injectable({ providedIn: 'root' })
-export class GraphicsEngineService {
+export class GraphicsEngineService{
     private scene!: THREE.Scene;
     private camera!: THREE.PerspectiveCamera;
     private renderer!: THREE.WebGLRenderer;
@@ -23,7 +24,7 @@ export class GraphicsEngineService {
     private raycaster = new THREE.Raycaster();
     private mouse = new THREE.Vector2();
     private arduino: THREE.Object3D | null = null;
-    private gui = new GUI();
+    private gui: GUI | null = null;
 
     private readonly objects: THREE.Object3D[] = [];
     private readonly light = new THREE.DirectionalLight(0xffffff, 1.7);
@@ -42,7 +43,21 @@ export class GraphicsEngineService {
     private _selectedMesh: Mesh | null = null;
     private dragControls: DragControls;
 
-    constructor(private jsonScript: JsonScriptService) {}
+    constructor() {}
+
+    ngOnDestroy(): void {
+        if (this.gui) {
+            this.gui.destroy();
+            this.gui = undefined;
+        }
+    }
+
+    private getWorkspaceRef: () => Blockly.WorkspaceSvg;
+
+    public setWorkspaceRef(ref: () => Blockly.WorkspaceSvg) {
+        this.getWorkspaceRef = ref;
+    }
+
 
     public async init(canvas: HTMLCanvasElement): Promise<void> {
         this.setupScene(canvas);
@@ -224,11 +239,6 @@ export class GraphicsEngineService {
         this.rebuildHierarchy();
     }
 
-
-    get hierarchy(): Mesh[] {
-        return this._hierarchy;
-    }
-
     get selectedMesh(): Mesh | null {
         return this._selectedMesh;
     }
@@ -243,19 +253,47 @@ export class GraphicsEngineService {
     }
 
     public setupGui() {
+        this.gui = new GUI();
         this.gui.hide();
         const registersFolder = this.gui.addFolder("Registers");
 
         (Object.keys(this.registers) as (keyof typeof this.registers)[]).forEach((key) => {
-            registersFolder.add(this.registers, key, 0, 1, 1).onChange((value) => {
-                this.jsonScript.addTargetToStep(key);
-                if (value === 1) {
-                    this.jsonScript.addActionToStep("SET");
-                } else if (value === 0) {
-                    this.jsonScript.addActionToStep("CLEAR");
-                }
-            });
+            registersFolder
+                .add(this.registers, key, 0, 1, 1)
+                .onFinishChange((value) => {
+                    const action = value === 1 ? 'SET' : 'CLEAR';
+
+                    const workspace = this.getWorkspaceRef?.();
+                    if (workspace) this.createStepBlockWithTargetAndAction(workspace, key, action);
+                });
         });
+    }
+
+    private createStepBlockWithTargetAndAction(
+        workspace: Blockly.WorkspaceSvg,
+        target: string,
+        action: string
+    ): void {
+        const stepBlock = workspace.newBlock('step_block') as Blockly.BlockSvg;
+        const targetBlock = workspace.newBlock('target_block') as Blockly.BlockSvg;
+
+        targetBlock.setFieldValue(target, 'targetName');
+        stepBlock.setFieldValue(action, 'action');
+
+        stepBlock.initSvg(); stepBlock.render();
+        targetBlock.initSvg(); targetBlock.render();
+
+        const y = workspace.getAllBlocks(false).length * 50;
+        stepBlock.moveBy(10, y);
+        targetBlock.moveBy(150, y);
+
+        const input = stepBlock.getInput('Target');
+        if (input?.connection && targetBlock.outputConnection) {
+            input.connection.connect(targetBlock.outputConnection);
+        }
+
+        workspace.render();
+        Blockly.svgResize(workspace);
     }
 
     private rebuildHierarchy(): void {
@@ -322,17 +360,6 @@ export class GraphicsEngineService {
 
     cameraVector: Vector3 = new Vector3();
     lightVector: Vector3 = new Vector3();
-
-    public printAngle() {
-
-        this.getVector(this.camera, this.cameraVector);
-        this.getVector(this.light, this.lightVector);
-
-        console.log('Camera:', this.cameraVector);
-        console.log('Light:', this.lightVector);
-
-        console.warn(this.radiansToDegrees(this.cameraVector.angleTo(this.lightVector)));
-    }
 
     private getVector(source: any, target: Vector3) {
         source.getWorldDirection(target);

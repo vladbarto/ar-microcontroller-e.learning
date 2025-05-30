@@ -25,6 +25,7 @@ ro/ps/chefmgmtbackend/dto/wizard/WizardRequestDTO$WizardRequestDTOBuilder.class
 ro/ps/chefmgmtbackend/dto/PageRequestDTO.class
 ro/ps/chefmgmtbackend/security/filter/AuthorizationFilter.class
 ro/ps/chefmgmtbackend/dto/wizardPage/WizardPageResponseDTO$WizardPageResponseDTOBuilder.class
+ro/ps/chefmgmtbackend/model/UserEntity$UserEntityBuilder.class
 ro/ps/chefmgmtbackend/mapper/WizardMapper.class
 ro/ps/chefmgmtbackend/exception/AccessDeniedHandlerBean.class
 ro/ps/chefmgmtbackend/service/wizard/WizardService.class
@@ -34,6 +35,7 @@ ro/ps/chefmgmtbackend/model/WizardEntity$WizardEntityBuilder.class
 ro/ps/chefmgmtbackend/service/wizard/WizardServiceBean.class
 ro/ps/chefmgmtbackend/controller/AuthController.class
 ro/ps/chefmgmtbackend/controller/WizardController.class
+ro/ps/chefmgmtbackend/dto/user/UserRequestDTO.class
 ro/ps/chefmgmtbackend/dto/user/RoleDTO.class
 ro/ps/chefmgmtbackend/dto/wizardPage/WizardPageRequestDTO.class
 ro/ps/chefmgmtbackend/model/WizardPageEntity.class

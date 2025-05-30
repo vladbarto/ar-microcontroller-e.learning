@@ -7,7 +7,7 @@ export const notLoggedGuard: CanActivateFn = () => {
 
   return !isCookiePresent()
     ? true
-    : router.navigateByUrl('dashboard/chefs');
+    : router.navigateByUrl('dashboard/home');
 };
 
 export const loggedGuard: CanActivateFn = () => {
