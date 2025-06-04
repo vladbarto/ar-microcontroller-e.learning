@@ -1,10 +1,4 @@
 import {
-  require_blockly_compressed,
-  require_core_browser,
-  require_en,
-  require_javascript
-} from "./chunk-AGN5AR43.js";
-import {
   Component,
   EventEmitter,
   HostListener,
@@ -27,6 +21,12 @@ import {
   ɵɵresolveWindow,
   ɵɵviewQuery
 } from "./chunk-JJOZ5A5Q.js";
+import {
+  require_blockly_compressed,
+  require_core_browser,
+  require_en,
+  require_javascript
+} from "./chunk-AGN5AR43.js";
 import {
   __commonJS,
   __spreadValues,

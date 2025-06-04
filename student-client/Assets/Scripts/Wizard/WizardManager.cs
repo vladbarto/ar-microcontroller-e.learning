@@ -21,8 +21,10 @@ public class WizardManager : MonoBehaviour
     [SerializeField] private GameObject loadingPanel;
     [SerializeField] private TMP_Text errorText;
 
+    [Header("Closing side menu")]
+    [SerializeField] private Animator animator;
+
     private int cardIdx = 0;
-    private int noOfCards = 0;
 
     // Model classes to deserialize JSON response
     [Serializable]
@@ -144,12 +146,13 @@ public class WizardManager : MonoBehaviour
                 string jsonResponse = webRequest.downloadHandler.text;
                 List<WizardResponseDTO> wizards = JsonConvert.DeserializeObject<List<WizardResponseDTO>>(jsonResponse);
 
-                noOfCards = wizards.Count;
                 // Create cards for each wizard
                 foreach (WizardResponseDTO wizard in wizards)
                 {
                     CreateWizardCard(wizard);
                 }
+                this.cardIdx = 0;
+
             }
             catch (Exception e)
             {
@@ -204,9 +207,10 @@ public class WizardManager : MonoBehaviour
     public void OnWizardCardClicked(WizardResponseDTO wizard)
     {
         Debug.Log($"Wizard clicked: {wizard.subtitle} (ID: {wizard.wizardId})");
+
+        animator.SetTrigger("CloseTrigger");
         // Navigate to wizard execution view
         WizardExecutionManager.Instance.StartWizard(wizard);
-        //DoWizarding.Instance.StartWizard(wizard);
     }
 
     // Optional: Add a refresh button in your UI and connect it to this method

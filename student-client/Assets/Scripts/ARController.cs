@@ -31,7 +31,7 @@ public class ARController : MonoBehaviour
                     // Get Vuforia metadata from the hit child
                     ObserverBehaviour observer = hit.transform.GetComponent<ObserverBehaviour>();
 
-                    if (pickedObject.name == "CHIP")
+                    if (pickedObject.name == "ATmega238P")
                     {
                         Debug.Log("chip hit");
                         launchChipMenu();

@@ -1,7 +1,6 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as THREE from 'three';
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
@@ -10,6 +9,7 @@ import GUI from 'three/examples/jsm/libs/lil-gui.module.min';
 import {Mesh, Vector3} from 'three';
 import {DragControls} from "three/examples/jsm/controls/DragControls";
 import * as Blockly from 'blockly';
+import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
 
 
 @Injectable({ providedIn: 'root' })
@@ -27,10 +27,10 @@ export class GraphicsEngineService{
     private gui: GUI | null = null;
 
     private readonly objects: THREE.Object3D[] = [];
-    private readonly light = new THREE.DirectionalLight(0xffffff, 1.7);
+    private readonly light = new THREE.DirectionalLight(0xffffff, 0.5);
     private readonly light2 = new THREE.PointLight(0xffffff, .6);
 
-    private readonly fillLight = new THREE.AmbientLight(0xffffff, 3);
+    private readonly fillLight = new THREE.AmbientLight(0xffffff, 1.5);
     private readonly registers = {
         PIO_PER: 0,
         PIO_OER: 0,
@@ -75,7 +75,8 @@ export class GraphicsEngineService{
         this.scene.background = new THREE.Color(0x073f72);
 
         this.camera = new THREE.PerspectiveCamera(1, canvas.clientWidth / canvas.clientHeight, 1, 1000);
-        this.camera.position.z = 400;
+        this.camera.position.z = 5;
+        this.camera.position.y = 5;
         this.camera.lookAt(0, 0, 0);
 
         this.renderer = new THREE.WebGLRenderer({ canvas });
@@ -89,9 +90,9 @@ export class GraphicsEngineService{
         this.renderer.outputColorSpace = THREE.SRGBColorSpace;
 
         this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        this.renderer.toneMappingExposure = 1.0;
+        this.renderer.toneMappingExposure = 1.5;
 
-        this.light.position.set(0, 500, 0);
+        this.light.position.set(5, 10, 7.50);
         this.light.target.position.set(0, 0, 0);
         this.light2.position.set(-5, 0, 0);
 
@@ -112,26 +113,28 @@ export class GraphicsEngineService{
             this.scene,
             this.camera
         );
-        this.outlinePass.edgeStrength = 4;
-        this.outlinePass.edgeGlow = 0.1;
-        this.outlinePass.edgeThickness = 2;
+        this.outlinePass.edgeStrength = 8;
+        this.outlinePass.edgeGlow = 1.5;
+        this.outlinePass.edgeThickness = 5;
         this.outlinePass.visibleEdgeColor.set(0xffff00);
 
         this.composer.addPass(this.outlinePass);
 
     }
 
-    public async loadModel(objPath: string, mtlPath?: string, texturePath?: string): Promise<THREE.Object3D> {
-        const objLoader = new OBJLoader();
+    private async loadModel(
+        glbPath: string,
+        texturePath?: string
+    ): Promise<THREE.Object3D> {
+        const gltfLoader = new GLTFLoader();
+        const gltf = await gltfLoader.loadAsync(glbPath);
+        const object = gltf.scene;
 
-        if (mtlPath) {
-            const mtlLoader = new MTLLoader();
-            const materials = await mtlLoader.loadAsync(mtlPath);
-            materials.preload();
-            objLoader.setMaterials(materials);
-        }
-
-        const object = await objLoader.loadAsync(objPath);
+        new RGBELoader().load('assets/studio_small_08_1k.hdr', (hdrTexture) => {
+            hdrTexture.mapping = THREE.EquirectangularReflectionMapping;
+            this.scene.environment = hdrTexture;
+            this.scene.background = hdrTexture; // sau setează alt fundal solid
+        });
 
         if (texturePath) {
             const texture = new THREE.TextureLoader().load(texturePath);
@@ -156,13 +159,13 @@ export class GraphicsEngineService{
         return object;
     }
 
+
     private onMouseDown(event: MouseEvent): void {
         this.gui.show();
 
         const rect = this.renderer.domElement.getBoundingClientRect();
         this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
 
         this.controls.update();
         this.camera.updateMatrixWorld();
@@ -182,12 +185,36 @@ export class GraphicsEngineService{
             }
         });
 
-        const intersections = this.raycaster.intersectObjects(this._hierarchy, false);
+        const intersections = this.raycaster.intersectObjects(this._hierarchy, true);
         if (intersections.length > 0) {
             const selected = intersections[0].object as THREE.Mesh;
-            this.selectMesh(selected); // <-- Use the same method for consistency
+            const root = this.getComponentRoot(selected);
+            this.selectMesh(root);
         }
+        this.sceneHierarchy.forEach(obj => this.logHierarchy(obj));
     }
+
+    private logHierarchy(node: THREE.Object3D, indent: number = 0): void {
+        const pad = ' '.repeat(indent * 2);
+        console.log(`${pad}- ${node.name || '[Unnamed]'} (${node.type})`);
+
+        node.children.forEach(child => {
+            this.logHierarchy(child, indent + 1);
+        });
+    }
+
+    private getComponentRoot(obj: THREE.Object3D): THREE.Object3D {
+        const rootCandidate = this.sceneHierarchy[0]; // Arduino Uno R3
+        let current: THREE.Object3D | null = obj;
+
+        while (current && current.parent !== rootCandidate) {
+            current = current.parent;
+        }
+
+        return current ?? obj;
+    }
+
+
 
     private animate(): void {
         requestAnimationFrame(() => this.animate());
@@ -219,10 +246,9 @@ export class GraphicsEngineService{
 
     private async loadArduino() {
         this.arduino = await this.loadModel(
-            'assets/objects_and_materials/board/arduino-due-manual.obj',
-            'assets/objects_and_materials/board/arduino-due-manual.mtl'
+            'assets/objects_and_materials/board/arduino_uno_exact.glb'
         );
-        this.arduino.name = "Arduino Due (Cortex M3)"
+        this.arduino.name = "Arduino Uno R3"
         this.arduino.position.set(0, 0, 0);
         this.scene.add(this.arduino);
         this.objects.push(this.arduino);
@@ -231,7 +257,7 @@ export class GraphicsEngineService{
     }
 
     public async addObject(objectTtile: string, objPath: string, mtlPath?: string, texturePath?: string ): Promise<void> {
-        const object = await this.loadModel(objPath, mtlPath, texturePath);
+        const object = await this.loadModel(objPath);
         object.name = objectTtile
         this.scene.add(object);
         this.objects.push(object);
@@ -299,16 +325,16 @@ export class GraphicsEngineService{
     private rebuildHierarchy(): void {
         this._hierarchy = [];
 
-        const allObjects = [this.arduino, ...this.objects].filter(Boolean);
-        allObjects.forEach(obj => {
-            obj.traverse(child => {
-                if (child instanceof THREE.Mesh) {
-                    this._hierarchy.push(child);
-                    child.geometry.computeBoundingBox();
-                    child.geometry.computeBoundingSphere();
-                    child.layers.enable(1);
-                }
-            });
+        this.sceneHierarchy.forEach(obj => {
+            if (obj instanceof THREE.Mesh) {
+                this._hierarchy.push(obj);
+            } else {
+                obj.traverse(child => {
+                    if (child instanceof THREE.Mesh && child.parent === obj) {
+                        this._hierarchy.push(child);
+                    }
+                });
+            }
         });
 
         this.camera.layers.enable(1);
@@ -346,7 +372,6 @@ export class GraphicsEngineService{
             this.setupDragControls(this.selectedMesh); // Activate drag controls on the selected mesh
         }
     }
-
 
     public setupKeyListener(): void {
         window.addEventListener('keydown', this.onKeyDown.bind(this));

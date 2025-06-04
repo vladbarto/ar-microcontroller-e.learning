@@ -32,16 +32,24 @@ public class WizardExecutionManager : MonoBehaviour
     [SerializeField] private GameObject wizardStepsExecutionPanel; // this will hold some details about current step, visible at any moment for student
     [SerializeField] private GameObject placuta; //arduino board, aka arduino-due-manual
     [SerializeField] private Button nextButton;
+    [SerializeField] private Button prevButton;
 
     [Header("UI Step Details")]
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text targetText;
     [SerializeField] private TMP_Text actionText;
+    [SerializeField] private Button hideStepsButton;
+
+    [Header("Highlight on board")]
+    [SerializeField] private Material highlightMaterial;
 
     Renderer renderer;
-    private Color originalColor;
+    private Material originalMaterial;
     private bool nextClicked;
-    
+    private bool prevClicked;
+    private int pageIdx;
+
+    private bool stepIsOpen;
     private WizardManager.WizardResponseDTO currentWizard;
     private List<StepIndicator> stepIndicators = new List<StepIndicator>();
 
@@ -60,6 +68,9 @@ public class WizardExecutionManager : MonoBehaviour
             return;
         }
 
+        this.prevButton.gameObject.SetActive(false);
+        this.stepIsOpen = true;
+
         // Hide panel on start
         if (wizardExecutionPanel != null)
             wizardExecutionPanel.SetActive(false);
@@ -70,20 +81,19 @@ public class WizardExecutionManager : MonoBehaviour
         if (statusText != null)
             statusText.gameObject.SetActive(false);
 
+        if (hideStepsButton != null)
+            hideStepsButton.gameObject.SetActive(false);
+
         // Set up button listeners
-        if (backButton != null)
-            backButton.onClick.AddListener(CloseWizardExecution);
-
-        if (executeButton != null)
-            executeButton.onClick.AddListener(ExecuteCurrentWizard);
-
-        if (nextButton != null)
-            nextButton.onClick.AddListener(OnNextClicked);
+        if (backButton != null) backButton.onClick.AddListener(CloseWizardExecution);
+        if (executeButton != null) executeButton.onClick.AddListener(ExecuteCurrentWizard);
+        if (nextButton != null) nextButton.onClick.AddListener(OnNextClicked);
+        if (prevButton != null) prevButton.onClick.AddListener(OnPrevClicked);
+        if (hideStepsButton != null) hideStepsButton.onClick.AddListener(OnHideStepsClicked);
 
         // Dezactiveaza acel panel pana cand apas pe Execute
         if (wizardStepsExecutionPanel != null)
             wizardStepsExecutionPanel.SetActive(false);
-
     }
 
     public void StartWizard(WizardManager.WizardResponseDTO wizard)
@@ -137,14 +147,12 @@ public class WizardExecutionManager : MonoBehaviour
             executeButton.interactable = true;
     }
 
-    private void CloseWizardExecution()
-    {
+    private void CloseWizardExecution() {
         if (wizardExecutionPanel != null)
             wizardExecutionPanel.SetActive(false);
     }
 
-    private void ExecuteCurrentWizard()
-    {
+    private void ExecuteCurrentWizard() {
         Debug.Log($"Executing wizard: {currentWizard.subtitle} (ID: {currentWizard.wizardId})");
 
         wizardExecutionPanel.SetActive(false);
@@ -153,9 +161,7 @@ public class WizardExecutionManager : MonoBehaviour
         {
             executeButton.interactable = false;
         }
-            
 
-        // Reset step indicators
         foreach (var indicator in stepIndicators)
         {
             indicator.SetCompletionStatus(false);
@@ -168,8 +174,7 @@ public class WizardExecutionManager : MonoBehaviour
         StartCoroutine(ExecuteWizardSteps());
     }
 
-    private IEnumerator ExecuteWizardSteps()
-    {
+    private IEnumerator ExecuteWizardSteps() {
         // Verificare: nu exista pasi in Wizard-ul selectat
         if (currentWizard.pages == null || currentWizard.pages.Count == 0)
         {
@@ -186,17 +191,14 @@ public class WizardExecutionManager : MonoBehaviour
             yield break;
         }
 
-
-        //Posibil sa nu imi trebuiasca
-        if (statusText != null)
-        {
-            statusText.text = "Executing wizard...";
-            statusText.color = Color.white;
-        }
+        this.hideStepsButton.gameObject.SetActive(true);
 
         // Execute each step in sequence
-        foreach (var page in currentWizard.pages)
-        {
+
+        pageIdx = 0;
+
+        while (pageIdx < currentWizard.pages.Count) {
+            var page = currentWizard.pages[pageIdx];
             Debug.Log($"Executing step {page.step}: {page.action} on {page.target}");
 
             if (statusText != null)
@@ -204,35 +206,44 @@ public class WizardExecutionManager : MonoBehaviour
 
             ExecuteStep2(page);
 
-            // Wait for user to click "Next"
+            // Wait for user to click "Prev" or "Next"
+            prevClicked = false;
             nextClicked = false;
-            yield return new WaitUntil(() => nextClicked);
+            yield return new WaitUntil(() => nextClicked || prevClicked);
+
+            if (nextClicked) {
+                if (pageIdx == 0)
+                    prevButton.gameObject.SetActive(true);
+                pageIdx++;
+            } else if (prevClicked) {
+                if (pageIdx == 1)
+                    prevButton.gameObject.SetActive(false);
+                if (pageIdx > 0)
+                    pageIdx--;
+            }
+
         }
 
         // dezactivam panel-ul de executie
         wizardStepsExecutionPanel.SetActive(false);
-
+        this.hideStepsButton.gameObject.SetActive(false);
     }
 
     /*** Logica:
         * Pentru fiecare pas var step
         * step.target ==(?) placuta.someChild.name
         * if found
-        *  placuta.someChild.setColor = yellow
-        *  maybe outline?
-        *  sa palpaie, aka play with transparency?
-        *  sageata deasupra obiectului => get Transform of someChild
+        *  then placuta.someChild.setColor = yellow
         * sa ai butonu de next pregatit
     */
-    private void ExecuteStep2(WizardManager.WizardPageResponseDTO page)
-    {
+    private void ExecuteStep2(WizardManager.WizardPageResponseDTO page) {
         // activam panel-ul de executie
         wizardStepsExecutionPanel.SetActive(true);
 
         // set description, target and action texts
         descriptionText.text = page.description;
-        targetText.text = page.target;
-        actionText.text = page.action;
+        targetText.text = $"Target: {page.target}";
+        actionText.text = $"Action: {page.action}";
 
         string stepTarget = page.target;
 
@@ -243,21 +254,34 @@ public class WizardExecutionManager : MonoBehaviour
             renderer = child.GetComponent<Renderer>();
 
             // Store the original color before changing it
-            originalColor = renderer.material.color;
+            originalMaterial = renderer.material;
 
             // Change the color to yellow
-            renderer.material.color = Color.yellow;
+            renderer.material = highlightMaterial;
         }
         
     }
 
-    private void OnNextClicked()
-    {
+    private void OnNextClicked() {
         if (renderer != null)
         {
-            renderer.material.color = originalColor;
+            renderer.material = originalMaterial;
         }
 
         nextClicked = true;
+    }
+
+    private void OnPrevClicked() {
+        if (renderer != null)
+        {
+            renderer.material = originalMaterial;
+        }
+
+        prevClicked = true;
+    }
+
+    private void OnHideStepsClicked() {
+        stepIsOpen = !stepIsOpen;
+        this.wizardStepsExecutionPanel.SetActive(stepIsOpen);
     }
 }

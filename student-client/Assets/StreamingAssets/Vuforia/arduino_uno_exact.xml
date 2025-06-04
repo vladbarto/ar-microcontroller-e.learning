@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig>
+<Tracking>
+<ModelTarget name="arduino_uno_exact" motionHint="adaptive" trackingMode="car" optimizeTrackingFor="default"/>
+
+</Tracking>
+
+<Assembly name="arduino_uno_exacts_assembly" assemblyId="75685a88ac0044bd9b5d94179631c2dc">
+<Part name="arduino_uno_exact" translation="0 0 0" rotation="AD: 0 0 1 0"/>
+<EntryPoint name="GuideView_0000" translation="-0.00460641 0.00237966 0.131504" rotation="AD: -0.0146745 -1.09688 2.4323 179.716" trained="no">
+
+</EntryPoint>
+
+</Assembly>
+
+</QCARConfig>

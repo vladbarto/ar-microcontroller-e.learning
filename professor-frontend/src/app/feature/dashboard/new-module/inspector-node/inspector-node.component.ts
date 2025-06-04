@@ -12,7 +12,7 @@ export class InspectorNodeComponent {
   @Input() selected!: THREE.Object3D | null;
   @Output() select = new EventEmitter<THREE.Object3D>();
 
-  expanded = true;
+  expanded = false;
 
   constructor(private graphicsEngine: GraphicsEngineService) {}
 
