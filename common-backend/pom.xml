@@ -11,10 +11,10 @@
 	</parent>
 
 	<groupId>ro.ps</groupId>
-	<artifactId>chef-mgmt-backend</artifactId>
+	<artifactId>common-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>chef-mgmt-backend</name>
-	<description>Demo project for Spring Boot</description>
+	<name>common-backend</name>
+	<description>Lucrare de licenta: server de backend care serveste frontendul (Angular) si mobile app-ul (Unity)</description>
 
 	<properties>
 		<java.version>17</java.version>

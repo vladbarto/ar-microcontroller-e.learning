@@ -58,7 +58,6 @@ export class GraphicsEngineService{
         this.getWorkspaceRef = ref;
     }
 
-
     public async init(canvas: HTMLCanvasElement): Promise<void> {
         this.setupScene(canvas);
         await this.loadArduino();
@@ -159,7 +158,6 @@ export class GraphicsEngineService{
         return object;
     }
 
-
     private onMouseDown(event: MouseEvent): void {
         this.gui.show();
 
@@ -214,8 +212,6 @@ export class GraphicsEngineService{
         return current ?? obj;
     }
 
-
-
     private animate(): void {
         requestAnimationFrame(() => this.animate());
         this.controls.update();
@@ -253,15 +249,6 @@ export class GraphicsEngineService{
         this.scene.add(this.arduino);
         this.objects.push(this.arduino);
         this.sceneHierarchy.push(this.arduino);
-        this.rebuildHierarchy();
-    }
-
-    public async addObject(objectTtile: string, objPath: string, mtlPath?: string, texturePath?: string ): Promise<void> {
-        const object = await this.loadModel(objPath);
-        object.name = objectTtile
-        this.scene.add(object);
-        this.objects.push(object);
-        this.sceneHierarchy.push(object);
         this.rebuildHierarchy();
     }
 

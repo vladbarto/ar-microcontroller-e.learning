@@ -28,8 +28,6 @@ export class BrowserStorageService {
       const name = equalPos > -1 ? cookie.slice(0, equalPos) : cookie;
       document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;';
     }
-
-    sessionStorage.removeItem('jwt-token');
   }
 
 }

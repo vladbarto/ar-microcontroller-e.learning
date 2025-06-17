@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig>
   <Tracking>
+    <ImageTarget name="screenshot2025-06-17at20" size="1.000000 1.009868" />
     <ImageTarget name="img_9520" size="1.000000 1.556267" />
     <ImageTarget name="img_9485" size="1.000000 1.333333" />
   </Tracking>

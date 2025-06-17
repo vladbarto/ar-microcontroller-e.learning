@@ -62,10 +62,6 @@ export class JsonScriptService {
 
 
 //   manipulate json
-  public getNextStepId(): string {
-    return (this.stepIdx++).toString();
-  }
-
   public resetPages(): void {
     this.json['pages'] = {};
     this.stepIdx = 1;
@@ -83,18 +79,8 @@ export class JsonScriptService {
     }
   }
 
-  public addStep(): string {
-    const stepId = this.getNextStepId();
-    this.json['pages'][stepId] = {};
-    return stepId;
-  }
-
   public putStep(id: string, page: PageStepModel): void {
     this.json['pages'][id] = page;
-  }
-
-  public increaseStep() {
-    this.stepIdx ++;
   }
 
   public addTargetToStep(objectName: string) {
@@ -103,14 +89,6 @@ export class JsonScriptService {
       return;
 
     this.json['pages'][stepKey]['target'] = objectName;
-  }
-
-  public addDescriptionToStep(description: string ) {
-    this.json['pages'][this.stepIdx-1]['description'] = description;
-  }
-
-  public addActionToStep(action: string ) {
-    this.json['pages'][this.stepIdx-1]['action'] = action.toUpperCase();
   }
 
   public getSubtitle(): string {
@@ -125,9 +103,6 @@ export class JsonScriptService {
     return this.json;
   }
 
-  public replaceStepsFromBlockSync(pages: Record<string, PageStepModel>) {
-    this.json['pages'] = pages;
-  }
 
   public resetAll(): void {
     this.xml = '';
