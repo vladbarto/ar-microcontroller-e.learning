@@ -10,8 +10,8 @@ import ro.ps.chefmgmtbackend.model.WizardPageEntity;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-28T18:52:08+0300",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.1 (Oracle Corporation)"
+    date = "2025-06-18T21:45:44+0300",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.1 (Homebrew)"
 )
 @Component
 public class WizardPageMapperImpl implements WizardPageMapper {
