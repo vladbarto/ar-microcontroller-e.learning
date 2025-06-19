@@ -11,12 +11,6 @@ using static LicentaUtils.Util;
 
 public class WizardExecutionManager : MonoBehaviour
 {
-    // Singleton pattern for easy access
-    public static WizardExecutionManager Instance { get; private set; }
-
-    private string apiBaseUrl;
-    private string authTokenKey = AUTH_TOKEN; //"auth_token"; // PlayerPrefs key for the token
-
     [Header("UI References Preview")]
     [SerializeField] private GameObject wizardExecutionPanel;
     [SerializeField] private TMP_Text wizardTitleText;
@@ -55,19 +49,6 @@ public class WizardExecutionManager : MonoBehaviour
 
     private void Awake()
     {
-        this.apiBaseUrl = GetBackendBaseUrl();
-
-        // Singleton setup
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else if (Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         this.prevButton.gameObject.SetActive(false);
         this.stepIsOpen = true;
 

@@ -15,6 +15,10 @@ public class WizardManager : MonoBehaviour
     private string getWizardsEndpoint = string.Format("{0}{1}", WIZARD_CONTROLLER, WIZARD_GET_ALL_ENDPOINT); //"/wizard/v1/all-main";
     private string authTokenKey = AUTH_TOKEN;
 
+    [Header("Execution Managers")]
+    [SerializeField] private WizardExecutionManager executionManagerForModelTarget;
+    [SerializeField] private WizardExecutionManager executionManagerForImageTarget;
+
     [Header("UI References")]
     [SerializeField] private Transform cardContainer;
     [SerializeField] private GameObject wizardCardPrefab;
@@ -209,8 +213,16 @@ public class WizardManager : MonoBehaviour
         Debug.Log($"Wizard clicked: {wizard.subtitle} (ID: {wizard.wizardId})");
 
         animator.SetTrigger("CloseTrigger");
-        // Navigate to wizard execution view
-        WizardExecutionManager.Instance.StartWizard(wizard);
+
+        if (executionManagerForModelTarget != null)
+            executionManagerForModelTarget.StartWizard(wizard);
+        else
+            Debug.LogWarning("(Model) No WizardExecutionManager set in WizardManager.");
+
+        if (executionManagerForImageTarget != null)
+            executionManagerForImageTarget.StartWizard(wizard);
+        else
+            Debug.LogWarning("(Image) No WizardExecutionManager set in WizardManager.");
     }
 
     // Optional: Add a refresh button in your UI and connect it to this method
