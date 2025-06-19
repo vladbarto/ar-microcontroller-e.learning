@@ -6,10 +6,10 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
-public class ChefMgmtBackendApplication {
+public class LicentaBackendApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ChefMgmtBackendApplication.class, args);
+        SpringApplication.run(LicentaBackendApplication.class, args);
     }
 
 }

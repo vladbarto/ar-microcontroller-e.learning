@@ -14,7 +14,8 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
 };
 
 const getUrl = (url: string): string => {
-  return 'http://localhost:2003/api/' + url;
+  const hostname = window.location.hostname;
+  return `http://${hostname}:2003/api/` + url;
 }
 
 const getHeaders = (url: string): HttpHeaders => {

@@ -20,7 +20,6 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @RequestMapping("/json/v1")
 @RequiredArgsConstructor
 public class JsonController {

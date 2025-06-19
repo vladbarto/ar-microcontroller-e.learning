@@ -18,7 +18,6 @@ ro/ps/chefmgmtbackend/exception/ExceptionCode.class
 ro/ps/chefmgmtbackend/security/filter/LoginFilter.class
 ro/ps/chefmgmtbackend/model/Role.class
 ro/ps/chefmgmtbackend/dto/wizard/WizardRequestDTO.class
-ro/ps/chefmgmtbackend/ChefMgmtBackendApplication.class
 ro/ps/chefmgmtbackend/security/config/SecurityConfig.class
 ro/ps/chefmgmtbackend/dto/wizardPage/WizardPageResponseDTO.class
 ro/ps/chefmgmtbackend/dto/wizard/WizardRequestDTO$WizardRequestDTOBuilder.class
@@ -48,6 +47,7 @@ ro/ps/chefmgmtbackend/service/user/UserServiceBean.class
 ro/ps/chefmgmtbackend/security/service/UserDetailsServiceBean.class
 ro/ps/chefmgmtbackend/mapper/UserMapperImpl$1.class
 ro/ps/chefmgmtbackend/dto/wizard/WizardResponseDTO$WizardResponseDTOBuilder.class
+ro/ps/chefmgmtbackend/LicentaBackendApplication.class
 ro/ps/chefmgmtbackend/validator/OddPageSizeValidator.class
 ro/ps/chefmgmtbackend/security/util/JwtUtil.class
 ro/ps/chefmgmtbackend/exception/ExceptionHandlingController.class

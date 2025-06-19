@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import ro.ps.chefmgmtbackend.mapper.UserMapper;
 import ro.ps.chefmgmtbackend.mapper.WizardMapper;
 import ro.ps.chefmgmtbackend.mapper.WizardPageMapper;
@@ -17,6 +20,8 @@ import ro.ps.chefmgmtbackend.service.wizard.WizardService;
 import ro.ps.chefmgmtbackend.service.wizard.WizardServiceBean;
 import ro.ps.chefmgmtbackend.service.wizardPage.WizardPageService;
 import ro.ps.chefmgmtbackend.service.wizardPage.WizardPageServiceBean;
+
+import java.util.List;
 
 @Configuration
 public class Config {
@@ -46,5 +51,20 @@ public class Config {
             @Value("${spring.application.name:BACKEND}") String applicationName
     ) {
         return new WizardPageServiceBean(wizardPageRepository, wizardPageMapper, applicationName);
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOriginPatterns(List.of("http://localhost:4200", "http://*:4200"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setExposedHeaders(List.of("Authorization", "Content-Type"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return new CorsFilter(source);
     }
 }

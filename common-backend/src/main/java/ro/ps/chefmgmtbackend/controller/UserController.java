@@ -13,7 +13,6 @@ import ro.ps.chefmgmtbackend.service.user.UserService;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @RequestMapping("/user/v1")
 @RequiredArgsConstructor
 public class UserController {

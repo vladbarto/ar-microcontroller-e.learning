@@ -15,7 +15,6 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @RequestMapping("/wizard/v1")
 @RequiredArgsConstructor
 public class WizardController {
