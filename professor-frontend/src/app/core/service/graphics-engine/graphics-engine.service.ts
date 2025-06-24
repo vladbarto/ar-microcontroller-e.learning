@@ -50,6 +50,8 @@ export class GraphicsEngineService{
             this.gui.destroy();
             this.gui = undefined;
         }
+
+        this.sceneHierarchy = []; // proper clean-up
     }
 
     private getWorkspaceRef: () => Blockly.WorkspaceSvg;

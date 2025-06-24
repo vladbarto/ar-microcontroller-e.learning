@@ -70,6 +70,8 @@ export class NewModuleComponent implements OnInit, AfterViewInit, OnDestroy {
       private route: ActivatedRoute
   ) {
 
+
+
     const actionOptions: [string, string][] = this.actionList.map(a => [a.toUpperCase(), a.toUpperCase()]);
 
     Blockly.Blocks['step_block'] = {

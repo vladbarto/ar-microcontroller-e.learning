@@ -63,6 +63,8 @@ namespace LicentaUtils
         {
             return $"{BACKEND_PROTOCOL}{BACKEND_DST_IP_ADDRESS()}:{FRONTEND_DST_PORT}";
         }
+
+        public static string MAIN_CHIP_NAME = "ATmega328P";
     }
 }
 

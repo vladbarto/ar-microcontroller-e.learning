@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 using TMPro;
-using System;
-using Newtonsoft.Json;
-using static LicentaUtils.Environment;
 using static LicentaUtils.Util;
 
 public class WizardExecutionManager : MonoBehaviour
@@ -23,8 +19,8 @@ public class WizardExecutionManager : MonoBehaviour
     [SerializeField] private TMP_Text statusText;
 
     [Header("UI References Steps")]
-    [SerializeField] private GameObject wizardStepsExecutionPanel; // this will hold some details about current step, visible at any moment for student
-    [SerializeField] private GameObject placuta; //arduino board, aka arduino-due-manual
+    [SerializeField] private GameObject wizardStepsExecutionPanel; // This will hold some details about current step, visible at any moment for student
+    [SerializeField] private GameObject placuta; //3D model of the arduino board
     [SerializeField] private Button nextButton;
     [SerializeField] private Button prevButton;
 

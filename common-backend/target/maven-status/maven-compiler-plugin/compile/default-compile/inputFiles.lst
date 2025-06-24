@@ -6,9 +6,7 @@
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/dto/user/UserResponseDTO.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/controller/JsonController.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/controller/UserController.java
-/Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/dto/CollectionResponseDTO.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/security/filter/AuthorizationFilter.java
-/Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/dto/PageRequestDTO.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/dto/wizard/WizardResponseDTO.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/exception/NotFoundException.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/controller/WizardController.java
@@ -20,7 +18,6 @@
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/LicentaBackendApplication.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/security/util/SecurityConstants.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/service/user/UserService.java
-/Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/validator/OddPageSizeValidator.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/exception/AccessDeniedHandlerBean.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/dto/wizard/WizardRequestDTO.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/dto/wizardPage/WizardPageResponseDTO.java
@@ -37,7 +34,6 @@
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/service/wizardPage/WizardPageServiceBean.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/exception/ExceptionCode.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/security/util/JwtUtil.java
-/Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/validator/OddPageSize.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/model/WizardPageEntity.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/service/user/UserServiceBean.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/chefmgmtbackend/exception/ExceptionHandlingController.java
