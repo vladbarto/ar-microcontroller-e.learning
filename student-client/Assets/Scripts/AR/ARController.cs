@@ -9,16 +9,29 @@ public class ARController : MonoBehaviour
     private Transform pickedObject = null;
     public GameObject chipMenu;
 
+    private ObserverBehaviour observer;
+
     private void Start()
     {
-        chipMenu.SetActive(false);    
+        chipMenu.SetActive(false);
+
+        observer = GetComponentInParent<ObserverBehaviour>();
+        if(observer == null)
+        {
+            Debug.LogWarning("ObserverBehaviour not found on parent object!");
+        }
     }
 
     void Update()
     {
+        // Nu procesăm raycast dacă markerul nu e activ
+        if (observer == null || observer.TargetStatus.Status != Status.TRACKED)
+            return;
+
         foreach (Touch touch in Input.touches)
         {
             Ray ray = Camera.main.ScreenPointToRay(touch.position);
+            Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 2f);
 
             if (touch.phase == TouchPhase.Began)
             {
@@ -29,31 +42,13 @@ public class ARController : MonoBehaviour
                     pickedObject = hit.transform;
                     Debug.Log($"Ray intersected: {pickedObject.name} (Child Object)");
 
-                    // Get Vuforia metadata from the hit child
-                    ObserverBehaviour observer = hit.transform.GetComponent<ObserverBehaviour>();
-
                     if (pickedObject.name == MAIN_CHIP_NAME)
                     {
                         Debug.Log("chip hit");
                         launchChipMenu();
                     }
-                    if (observer != null)
-                    {
-                        Debug.Log("---------------------------------------------------------");
-                        Debug.Log($"Vuforia Target Found: {observer.TargetName}");
-                        Debug.Log($"Exact Child Hit: {hit.transform.name}");
-                        Debug.Log("---------------------------------------------------------");
 
-                        if (hit.transform.name == MAIN_CHIP_NAME)
-                        {
-                            Debug.Log("chip hit");
-                            launchChipMenu();
-                        }
-                        else
-                        {
-                            Debug.Log(hit.transform.name);
-                        }
-                    }
+                    Debug.Log(pickedObject.name + " hit by ray");
                 }
                 else
                 {

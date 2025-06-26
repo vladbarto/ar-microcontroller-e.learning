@@ -185,12 +185,12 @@ public class WizardManager : MonoBehaviour
             rectTransform.pivot = new Vector2(0.5f, 0.5f);
 
             // You may need to set an explicit size if the prefab doesn't have one
-            // rectTransform.sizeDelta = new Vector2(200, 150);
+             //rectTransform.sizeDelta = new Vector2(834.1305f, 196.7368f);
         }
 
         float cardHeight = rectTransform.offsetMax.y - rectTransform.offsetMin.y;
 
-        cardObject.transform.localPosition = new Vector3(353, - cardHeight * this.cardIdx, 0);
+        cardObject.transform.localPosition = new Vector3(400, - cardHeight * this.cardIdx, 0);
         cardObject.transform.localRotation = Quaternion.identity;
         cardObject.transform.localScale = Vector3.one;
 

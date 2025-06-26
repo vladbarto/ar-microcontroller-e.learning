@@ -11,7 +11,7 @@ import ro.ps.licentabackend.model.WizardEntity;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-06-24T18:35:42+0300",
+    date = "2025-06-25T11:13:38+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.1 (Homebrew)"
 )
 @Component
