@@ -12,7 +12,7 @@ import ro.ps.licentabackend.model.UserEntity;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-06-25T11:13:38+0300",
+    date = "2025-07-15T21:38:24+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.1 (Homebrew)"
 )
 @Component
@@ -24,13 +24,13 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        UserResponseDTO userResponseDTO = new UserResponseDTO();
+        UserResponseDTO.UserResponseDTOBuilder userResponseDTO = UserResponseDTO.builder();
 
-        userResponseDTO.setId( entity.getId() );
-        userResponseDTO.setEmail( entity.getEmail() );
-        userResponseDTO.setRole( roleToRoleDTO( entity.getRole() ) );
+        userResponseDTO.id( entity.getId() );
+        userResponseDTO.email( entity.getEmail() );
+        userResponseDTO.role( roleToRoleDTO( entity.getRole() ) );
 
-        return userResponseDTO;
+        return userResponseDTO.build();
     }
 
     @Override

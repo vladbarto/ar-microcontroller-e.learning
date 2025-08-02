@@ -7,7 +7,7 @@
         </div>
 
         <div *ngIf="editMode" class="mt-3">
-            <button class="btn btn-danger" (click)="deleteCard(learningModule.wizardId); $event.stopPropagation()">
+            <button class="btn btn-danger" (click)="$event.stopPropagation(); deleteCard(learningModule.wizardId)">
                 <i class="fa-solid fa-trash"></i>
             </button>
         </div>

@@ -1,0 +1,23 @@
+{
+    // antet (header)
+    "subtitle": "subtitlul unei lecții;
+        câmpul este numit astfel din motive de scalabilitate ulterioară,
+        din moment ce o lecție ar putea avea mai multe subsecțiuni și,
+        prin urmare, mai multe subtitluri",
+    "aim": "principalul scop (aim) urmărit de lecția curentă",
+
+    // obiect ce ține paginile unei lecții
+    "pages": {
+        1: {
+            "target": "numele componentei descrise de pe microcontroller",
+            "description": "text specific introdus de profesor care oferă
+                detalii despre câmpul target",
+            "action": "acțiune descrisă într-un cuvânt precum ATTACH,
+                SET, OPEN și așa mai departe"
+        },
+        ...
+        n: {...}
+    }
+}
+
+

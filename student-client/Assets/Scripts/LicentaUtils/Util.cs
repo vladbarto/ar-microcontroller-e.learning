@@ -7,6 +7,9 @@ namespace LicentaUtils
     {
         public static Transform childMatchingTarget(Transform parent, string target)
         {
+            if (parent.name == target)
+                return parent;
+
             int childCount = parent.childCount;
 
             if(0 != childCount)

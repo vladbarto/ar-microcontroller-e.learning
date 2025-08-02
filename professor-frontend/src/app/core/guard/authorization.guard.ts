@@ -11,15 +11,6 @@ export const adminGuard: CanActivateFn = () => {
     : router.navigateByUrl('/dashboard/invalid-access');
 };
 
-export const userGuard: CanActivateFn = () => {
-  const router = inject(Router);
-
-  return getUser()?.role === 'USER'
-    ? true
-    : router.navigateByUrl('/dashboard/invalid-access');
-};
-
-
 const getUser = (): UserModel => {
   return JSON.parse(sessionStorage.getItem('loggedUser') || '');
 };

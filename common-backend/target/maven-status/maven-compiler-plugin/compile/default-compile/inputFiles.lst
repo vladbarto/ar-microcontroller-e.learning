@@ -4,7 +4,6 @@
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/licentabackend/exception/AccessDeniedHandlerBean.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/licentabackend/service/user/UserService.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/licentabackend/security/filter/LoginFilter.java
-/Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/licentabackend/controller/AuthController.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/licentabackend/exception/ExceptionBody.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/licentabackend/service/wizardPage/WizardPageService.java
 /Users/vladbarto/Documents/FACULTATE/AN4/LICENTA/ar-microcontroller-e.learning/common-backend/src/main/java/ro/ps/licentabackend/LicentaBackendApplication.java

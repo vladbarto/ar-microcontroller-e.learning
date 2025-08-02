@@ -1,8 +1,11 @@
 import threading
 import subprocess
+import os
 
-fe_path = "professor-frontend"
-be_path = "common-backend"
+base_dir = os.path.dirname(os.path.abspath(__file__))
+
+be_path = os.path.join(base_dir, "common-backend")
+fe_path = os.path.join(base_dir, "professor-frontend")
 
 
 def start_frontend():

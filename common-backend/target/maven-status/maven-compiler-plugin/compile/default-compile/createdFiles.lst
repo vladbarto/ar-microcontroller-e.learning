@@ -3,7 +3,6 @@ ro/ps/licentabackend/security/filter/AuthorizationFilter.class
 ro/ps/licentabackend/dto/wizard/WizardResponseDTO.class
 ro/ps/licentabackend/security/service/UserDetailsServiceBean.class
 ro/ps/licentabackend/mapper/GenericMapper.class
-ro/ps/licentabackend/controller/AuthController.class
 ro/ps/licentabackend/model/UserEntity.class
 ro/ps/licentabackend/mapper/WizardMapper.class
 ro/ps/licentabackend/dto/wizard/WizardRequestDTO.class

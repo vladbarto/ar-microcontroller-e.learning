@@ -120,12 +120,10 @@ export class GraphicsEngineService{
         this.outlinePass.visibleEdgeColor.set(0xffff00);
 
         this.composer.addPass(this.outlinePass);
-
     }
 
     private async loadModel(
         glbPath: string,
-        texturePath?: string
     ): Promise<THREE.Object3D> {
         const gltfLoader = new GLTFLoader();
         const gltf = await gltfLoader.loadAsync(glbPath);
@@ -134,28 +132,8 @@ export class GraphicsEngineService{
         new RGBELoader().load('assets/studio_small_08_1k.hdr', (hdrTexture) => {
             hdrTexture.mapping = THREE.EquirectangularReflectionMapping;
             this.scene.environment = hdrTexture;
-            this.scene.background = hdrTexture; // sau setează alt fundal solid
+            this.scene.background = hdrTexture;
         });
-
-        if (texturePath) {
-            const texture = new THREE.TextureLoader().load(texturePath);
-            object.traverse(child => {
-                if (child instanceof THREE.Mesh) {
-                    const mat = child.material;
-                    if (Array.isArray(mat)) {
-                        mat.forEach(m => {
-                            if (m instanceof THREE.MeshStandardMaterial) {
-                                m.map = texture;
-                                m.needsUpdate = true;
-                            }
-                        });
-                    } else if (mat instanceof THREE.MeshStandardMaterial) {
-                        mat.map = texture;
-                        mat.needsUpdate = true;
-                    }
-                }
-            });
-        }
 
         return object;
     }

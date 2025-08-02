@@ -48,7 +48,7 @@ public class JsonController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<WizardResponseDTO> updateJson(@PathVariable UUID id, @RequestBody String requestBody) {
+    public ResponseEntity<WizardResponseDTO> updateJson(@PathVariable("id") UUID id, @RequestBody String requestBody) {
         log.info("Received over network: {}, {}", id, requestBody);
 
         WizardRequestDTO wizardRequestDTO = WizardUtil.requestBodyStringToRequestDTO(requestBody);

@@ -206,6 +206,10 @@ public class WizardExecutionManager : MonoBehaviour
         this.hideStepsButton.gameObject.SetActive(false);
     }
 
+
+    private List<Renderer> highlightedRenderers = new List<Renderer>();
+    private Dictionary<Renderer, Color[]> originalColors = new Dictionary<Renderer, Color[]>();
+
     /*** Logica:
         * Pentru fiecare pas var step
         * step.target ==(?) placuta.someChild.name
@@ -213,47 +217,75 @@ public class WizardExecutionManager : MonoBehaviour
         *  then placuta.someChild.setColor = yellow
         * sa ai butonu de next pregatit
     */
-    private void ExecuteStep2(WizardManager.WizardPageResponseDTO page) {
-        // activam panel-ul de executie
+    private void ExecuteStep2(WizardManager.WizardPageResponseDTO page)
+    {
         wizardStepsExecutionPanel.SetActive(true);
 
-        // set description, target and action texts
         descriptionText.text = page.description;
         targetText.text = $"Target: {page.target}";
         actionText.text = $"Action: {page.action}";
 
         string stepTarget = page.target;
-
         Transform child = childMatchingTarget(placuta.transform, stepTarget);
 
-        if(null != child)
+        highlightedRenderers.Clear();
+        originalColors.Clear();
+
+        if (child != null)
         {
-            renderer = child.GetComponent<Renderer>();
+            Renderer[] renderers = child.GetComponentsInChildren<Renderer>(true);
 
-            // Store the original color before changing it
-            originalMaterial = renderer.material;
+            foreach (Renderer rend in renderers)
+            {
+                Material[] mats = rend.materials;
+                Color[] colors = new Color[mats.Length];
 
-            // Change the color to yellow
-            renderer.material = highlightMaterial;
+                for (int i = 0; i < mats.Length; i++)
+                {
+                    colors[i] = mats[i].color;
+                    mats[i].color = Color.yellow;
+                }
+
+                originalColors[rend] = colors;
+                highlightedRenderers.Add(rend);
+            }
         }
-        
+        else
+        {
+            Debug.LogWarning("Target not found: " + stepTarget);
+        }
     }
 
-    private void OnNextClicked() {
-        if (renderer != null)
+
+    private void RestoreOriginalColors()
+    {
+        foreach (Renderer rend in highlightedRenderers)
         {
-            renderer.material = originalMaterial;
+            if (originalColors.ContainsKey(rend))
+            {
+                Material[] mats = rend.materials;
+                Color[] savedColors = originalColors[rend];
+
+                for (int i = 0; i < mats.Length && i < savedColors.Length; i++)
+                {
+                    mats[i].color = savedColors[i];
+                }
+            }
         }
 
+        highlightedRenderers.Clear();
+        originalColors.Clear();
+    }
+
+    private void OnNextClicked()
+    {
+        RestoreOriginalColors();
         nextClicked = true;
     }
 
-    private void OnPrevClicked() {
-        if (renderer != null)
-        {
-            renderer.material = originalMaterial;
-        }
-
+    private void OnPrevClicked()
+    {
+        RestoreOriginalColors();
         prevClicked = true;
     }
 
