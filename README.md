@@ -1,5 +1,20 @@
-# ar-microcontroller-e.learning
+# My official bachelor thesis : ar-microcontroller-e.learning
+## Important: any other operation than reading is strictly forbidden, as the project makes now part of the official TUCN archive.
 My bachelor thesis on Augmented Reality used in educational domain of learning about ARM-based microcontrollers (e.g. Arduino)
+
+# Results
+Student app:
+
+<img width="570" height="384" alt="image" src="https://github.com/user-attachments/assets/52e47dbc-0485-4ac3-aa84-ddc8abce914c" />
+<img width="569" height="409" alt="image" src="https://github.com/user-attachments/assets/b0c27fed-d9d1-44f6-bd1a-70ece0f4193a" />
+
+Teacher app:
+
+<img width="574" height="294" alt="image" src="https://github.com/user-attachments/assets/ffe19309-bb66-43b6-8c2e-bc61cc1626fd" />
+<img width="578" height="280" alt="image" src="https://github.com/user-attachments/assets/f1bbc0b9-2df0-4b8e-b5ef-d472c7e4bdd1" />
+
+# Real life situation setup use case
+<img width="644" height="419" alt="image" src="https://github.com/user-attachments/assets/010dc03c-c4ad-4895-837b-ebe2f4c56325" />
 
 # Installation and use
 ## Professor-Frontend and Common-Backend
